@@ -10,6 +10,16 @@ export const MEALS: Meal[] = [
         moodSync: ["calm", "relaxed", "grounding"],
         image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
         calories: 420,
+        nutrientsByMood: {
+            calm: ["magnesium"],
+            relaxed: ["fiber", "magnesium"],
+            grounding: ["magnesium", "magnesium"],
+        },
+        ingredientsByMood: {
+            calm: ["quinoa", "leafy greens"],
+            relaxed: ["quinoa", "spinach", "pumpkin seeds"],
+            grounding: ["quinoa", "spinach", "olive oil"],
+        },
     },
     {
         id: "v2",
@@ -19,6 +29,14 @@ export const MEALS: Meal[] = [
         moodSync: ["focused", "energetic"],
         image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=800&q=80",
         calories: 380,
+        nutrientsByMood: {
+            focused: ["DHA/omega-3 (via fortified foods)", "protein"],
+            energetic: ["protein", "iron"],
+        },
+        ingredientsByMood: {
+            focused: ["paneer", "spinach", "garlic"],
+            energetic: ["paneer", "lentils", "spinach"],
+        },
     },
     {
         id: "v3",
@@ -28,6 +46,16 @@ export const MEALS: Meal[] = [
         moodSync: ["comforting", "calm", "happy"],
         image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=800&q=80",
         calories: 280,
+        nutrientsByMood: {
+            comforting: ["carbohydrates", "protein"],
+            calm: ["magnesium"],
+            happy: ["tryptophan (precursor to serotonin)", "vitamin C"],
+        },
+        ingredientsByMood: {
+            comforting: ["tomatoes", "olive oil", "basil"],
+            calm: ["tomatoes", "basil", "olive oil"],
+            happy: ["tomatoes", "basil", "parmesan (optional)"],
+        },
     },
     {
         id: "v4",
@@ -37,6 +65,16 @@ export const MEALS: Meal[] = [
         moodSync: ["light", "energetic", "focused"],
         image: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=800&q=80",
         calories: 310,
+        nutrientsByMood: {
+            light: ["fiber", "vitamin C"],
+            energetic: ["complex carbohydrates", "iron"],
+            focused: ["omega-3 support (via seeds)", "protein"],
+        },
+        ingredientsByMood: {
+            light: ["chickpeas", "cucumber", "tomatoes"],
+            energetic: ["chickpeas", "olive oil", "lemon"],
+            focused: ["chickpeas", "walnuts", "olive oil"],
+        },
     },
     // Non-Veg
     {
@@ -47,6 +85,16 @@ export const MEALS: Meal[] = [
         moodSync: ["focused", "calm", "grounding"],
         image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=800&q=80",
         calories: 450,
+        nutrientsByMood: {
+            focused: ["DHA (omega-3)"],
+            calm: ["magnesium"],
+            grounding: ["omega-3", "fiber"],
+        },
+        ingredientsByMood: {
+            focused: ["salmon", "asparagus", "lemon"],
+            calm: ["salmon", "asparagus", "olive oil"],
+            grounding: ["salmon", "asparagus", "quinoa (side optional)"],
+        },
     },
     {
         id: "nv2",
@@ -56,6 +104,16 @@ export const MEALS: Meal[] = [
         moodSync: ["energetic", "focused", "happy"],
         image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
         calories: 520,
+        nutrientsByMood: {
+            energetic: ["protein", "complex carbohydrates"],
+            focused: ["protein", "B-vitamins"],
+            happy: ["tryptophan (from protein)", "carbohydrate-support"],
+        },
+        ingredientsByMood: {
+            energetic: ["chicken", "brown rice", "ginger"],
+            focused: ["chicken", "brown rice", "sesame seeds"],
+            happy: ["chicken", "rice", "soy sauce"],
+        },
     },
     {
         id: "nv3",
@@ -65,6 +123,16 @@ export const MEALS: Meal[] = [
         moodSync: ["comforting", "relaxed", "grounding"],
         image: "https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=800&q=80",
         calories: 580,
+        nutrientsByMood: {
+            comforting: ["protein", "zinc"],
+            relaxed: ["magnesium", "fiber"],
+            grounding: ["protein", "iron"],
+        },
+        ingredientsByMood: {
+            comforting: ["beef", "carrots", "potatoes"],
+            relaxed: ["beef", "carrots", "leafy greens"],
+            grounding: ["beef", "potatoes", "onions"],
+        },
     },
     {
         id: "nv4",
@@ -74,6 +142,16 @@ export const MEALS: Meal[] = [
         moodSync: ["light", "happy", "energetic"],
         image: "https://images.unsplash.com/photo-1551248429-40975aa4de74?auto=format&fit=crop&w=800&q=80",
         calories: 390,
+        nutrientsByMood: {
+            light: ["fiber", "vitamin C"],
+            happy: ["tryptophan (from seafood + sides)", "omega-3 support"],
+            energetic: ["protein", "complex carbs"],
+        },
+        ingredientsByMood: {
+            light: ["shrimp", "bell peppers", "broccoli"],
+            happy: ["shrimp", "garlic", "lemon"],
+            energetic: ["shrimp", "rice noodles", "sesame seeds"],
+        },
     },
     // Vegan
     {
@@ -84,6 +162,16 @@ export const MEALS: Meal[] = [
         moodSync: ["calm", "relaxed", "grounding"],
         image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80",
         calories: 350,
+        nutrientsByMood: {
+            calm: ["magnesium", "fiber"],
+            relaxed: ["fiber", "healthy fats"],
+            grounding: ["complex carbohydrates", "magnesium"],
+        },
+        ingredientsByMood: {
+            calm: ["lentils", "avocado", "spinach"],
+            relaxed: ["lentils", "avocado", "olive oil"],
+            grounding: ["lentils", "tortillas", "avocado"],
+        },
     },
     {
         id: "vg2",
@@ -93,6 +181,16 @@ export const MEALS: Meal[] = [
         moodSync: ["comforting", "calm", "energetic"],
         image: "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=800&q=80",
         calories: 410,
+        nutrientsByMood: {
+            comforting: ["complex carbohydrates", "protein"],
+            calm: ["magnesium"],
+            energetic: ["complex carbohydrates", "fiber"],
+        },
+        ingredientsByMood: {
+            comforting: ["chickpeas", "sweet potato", "tomatoes"],
+            calm: ["chickpeas", "spinach", "tomatoes"],
+            energetic: ["sweet potato", "chickpeas", "olive oil"],
+        },
     },
     {
         id: "vg3",
@@ -102,6 +200,16 @@ export const MEALS: Meal[] = [
         moodSync: ["focused", "light", "energetic"],
         image: "https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&w=800&q=80",
         calories: 290,
+        nutrientsByMood: {
+            focused: ["omega-3 (ALA) support", "magnesium"],
+            light: ["fiber", "vitamin C"],
+            energetic: ["protein", "iron"],
+        },
+        ingredientsByMood: {
+            focused: ["greens", "chia seeds", "banana"],
+            light: ["greens", "berries", "chia seeds"],
+            energetic: ["greens", "seeds", "oats (optional)"],
+        },
     },
     {
         id: "vg4",
@@ -111,5 +219,15 @@ export const MEALS: Meal[] = [
         moodSync: ["happy", "light", "relaxed"],
         image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=800&q=80",
         calories: 240,
+        nutrientsByMood: {
+            happy: ["tryptophan (from protein/plant sources)", "vitamin C"],
+            light: ["fiber", "antioxidants"],
+            relaxed: ["magnesium", "fiber"],
+        },
+        ingredientsByMood: {
+            happy: ["mango", "chia seeds", "coconut milk"],
+            light: ["mango", "berries", "chia seeds"],
+            relaxed: ["chia seeds", "oats (optional)", "mango"],
+        },
     },
 ];

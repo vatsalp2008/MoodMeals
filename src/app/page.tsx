@@ -4,9 +4,11 @@ import HowItWorks from "@/components/HowItWorks";
 import MealLibrary from "@/components/MealLibrary";
 import TheScience from "@/components/TheScience";
 import MoodInput from "@/components/MoodInput";
+import PantryBudgetPanel from "@/components/PantryBudgetPanel";
 import CTASection from "@/components/CTASection";
 import { MoodProvider } from "@/context/MoodContext";
 import Link from "next/link";
+import LocalOnboarding from "@/components/LocalOnboarding";
 
 export default function Home() {
   return (
@@ -14,7 +16,9 @@ export default function Home() {
       <main>
         <Navbar />
         <Hero />
+        <LocalOnboarding />
         <MoodInput />
+        <PantryBudgetPanel />
         <HowItWorks />
         <TheScience />
         <MealLibrary />
@@ -23,7 +27,7 @@ export default function Home() {
         <section style={{ padding: "100px 0", backgroundColor: "var(--warm-white)", textAlign: "center" }}>
           <div className="container">
             <div style={{ fontSize: "1.1rem", fontStyle: "italic", color: "var(--text-mid)", maxWidth: "800px", margin: "0 auto", lineHeight: "1.75" }}>
-              "The combination of mood tracking and personalized meal plans has completely transformed my approach to nutrition. I feel more in sync with my body than ever before."
+              The combination of mood tracking and personalized meal plans has completely transformed my approach to nutrition. I feel more in sync with my body than ever before.
             </div>
             <div style={{ marginTop: "24px", fontWeight: 700, color: "var(--text-dark)" }}>— Elena S., Holistic Health Coach</div>
           </div>

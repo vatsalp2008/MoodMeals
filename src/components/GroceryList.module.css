@@ -1,0 +1,125 @@
+@import url("../app/globals.css");
+
+.section {
+    padding: 60px 0 90px;
+    background: var(--warm-white);
+}
+
+.card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--beige-dark);
+    padding: 28px;
+}
+
+.title {
+    font-family: var(--font-lora), serif;
+    font-size: 2.1rem;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.note {
+    color: var(--text-light);
+    font-size: 1.0rem;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+.metaRow {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.meta {
+    font-weight: 800;
+    color: var(--text-mid);
+}
+
+.metaValue {
+    color: var(--text-dark);
+}
+
+.empty {
+    color: var(--text-light);
+    font-weight: 700;
+    margin-top: 18px;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid rgba(168, 196, 176, 0.25);
+    background: var(--sage-pale);
+}
+
+.itemName {
+    font-weight: 900;
+    color: var(--text-dark);
+    text-transform: capitalize;
+}
+
+.itemCost {
+    font-weight: 900;
+    color: var(--text-mid);
+    white-space: nowrap;
+}
+
+.subs {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(168, 196, 176, 0.3);
+}
+
+.subsTitle {
+    font-weight: 900;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    font-family: var(--font-lora), serif;
+    font-size: 1.3rem;
+}
+
+.subsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subsItem {
+    color: var(--text-mid);
+    font-weight: 800;
+}
+
+.subsFrom {
+    text-transform: capitalize;
+}
+
+.subsTo {
+    text-transform: capitalize;
+}
+
+@media (max-width: 900px) {
+    .section {
+        padding: 30px 0 60px;
+    }
+}
+

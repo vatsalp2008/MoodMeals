@@ -1,5 +1,79 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
+import { randomUUID } from "crypto";
+
+type AllowedEmotion = "stressed" | "tired" | "happy" | "focused" | "sad" | "energetic" | "calm";
+type AllowedIntensity = "low" | "medium" | "high";
+type AllowedRecommendedMood =
+    | "calm"
+    | "relaxed"
+    | "focused"
+    | "energetic"
+    | "happy"
+    | "comforting"
+    | "light"
+    | "grounding";
+
+const ALLOWED_EMOTIONS: AllowedEmotion[] = ["stressed", "tired", "happy", "focused", "sad", "energetic", "calm"];
+const ALLOWED_INTENSITIES: AllowedIntensity[] = ["low", "medium", "high"];
+const ALLOWED_RECOMMENDED_MOODS: AllowedRecommendedMood[] = [
+    "calm",
+    "relaxed",
+    "focused",
+    "energetic",
+    "happy",
+    "comforting",
+    "light",
+    "grounding",
+];
+
+const normalizeIntensity = (moodTextLower: string): AllowedIntensity => {
+    // Heuristic: longer and more descriptive logs usually indicate stronger intensity.
+    const len = moodTextLower.length;
+    if (len >= 120) return "high";
+    if (len >= 50) return "medium";
+    return "low";
+};
+
+const validateAndNormalize = (input: unknown, fallback: ReturnType<typeof localHeuristicEngine>, source: string) => {
+    const obj = input as Partial<{
+        emotion: string;
+        intensity: string;
+        recommendedMoods: unknown;
+        message: unknown;
+    }>;
+
+    const emotion = typeof obj?.emotion === "string" ? (obj.emotion as AllowedEmotion) : undefined;
+    const intensity = typeof obj?.intensity === "string" ? (obj.intensity as AllowedIntensity) : undefined;
+
+    const recommendedMoods = Array.isArray(obj?.recommendedMoods)
+        ? obj.recommendedMoods.filter((x) => typeof x === "string") as string[]
+        : [];
+
+    const normalizedRecommendedMoods = Array.from(
+        new Set(
+            recommendedMoods.filter((m) => ALLOWED_RECOMMENDED_MOODS.includes(m as AllowedRecommendedMood)) as AllowedRecommendedMood[]
+        )
+    ).slice(0, 3);
+
+    const message = typeof obj?.message === "string" ? obj.message : undefined;
+
+    const isValid =
+        emotion && ALLOWED_EMOTIONS.includes(emotion) && intensity && ALLOWED_INTENSITIES.includes(intensity) && normalizedRecommendedMoods.length > 0 && message;
+
+    if (!isValid) {
+        // If Gemini output is malformed or out-of-schema, use the local fallback as-is.
+        return { ...fallback };
+    }
+
+    return {
+        emotion: emotion as AllowedEmotion,
+        intensity: intensity as AllowedIntensity,
+        recommendedMoods: normalizedRecommendedMoods,
+        message,
+        source,
+    };
+};
 
 // --- Local Heuristic Engine ---
 // This handles the logic when Gemini is unavailable or key is missing.
@@ -69,10 +143,10 @@ const localHeuristicEngine = (text: string) => {
 
     return {
         emotion: detectedEmotion,
-        intensity: moodText.length > 50 ? "high" : "medium",
+        intensity: normalizeIntensity(moodText),
         recommendedMoods: result.moods,
         message: result.msg,
-        source: "local-heuristic"
+        source: "local-heuristic",
     };
 };
 
@@ -80,19 +154,50 @@ const localHeuristicEngine = (text: string) => {
 // --- API Route Handler ---
 
 export async function POST(req: NextRequest) {
-    const { mood } = await req.json();
+    const requestId = randomUUID();
+
+    const body = await req
+        .json()
+        .then((v) => v)
+        .catch(() => null as unknown);
+
+    type AnalyzeMoodRequestBody = {
+        mood?: unknown;
+        inputMode?: unknown;
+        sustainChoice?: unknown;
+    };
+
+    const typedBody = body as AnalyzeMoodRequestBody | null;
+
+    const mood = typedBody?.mood;
+    const inputMode = typedBody?.inputMode;
+    const sustainChoice = typedBody?.sustainChoice;
 
     if (!mood || typeof mood !== "string") {
-        return NextResponse.json({ error: "Mood text is required." }, { status: 400 });
+        return NextResponse.json({ error: "Mood text is required.", requestId }, { status: 400 });
     }
 
+    const trimmedMood = mood.trim();
+    if (!trimmedMood) {
+        return NextResponse.json({ error: "Mood text cannot be empty.", requestId }, { status: 400 });
+    }
+    if (trimmedMood.length > 2000) {
+        return NextResponse.json({ error: "Mood text is too long (max 2000 chars).", requestId }, { status: 400 });
+    }
+
+    const localFallback = localHeuristicEngine(trimmedMood);
+
     const apiKey = process.env.GEMINI_API_KEY;
-    const isMockKey = !apiKey || apiKey === "your_gemini_api_key_here";
+    const isMockKey = !apiKey || apiKey.trim() === "" || apiKey === "your_gemini_api_key_here";
 
     // If key is missing or is placeholder, use local engine immediately
     if (isMockKey) {
-        console.log("[analyze-mood] No API key found. Using Local Heuristic Engine.");
-        return NextResponse.json(localHeuristicEngine(mood));
+        console.log(
+            `[analyze-mood] requestId=${requestId} inputMode=${inputMode ?? "unknown"} sustainChoice=${
+                sustainChoice ?? "unknown"
+            } -> using local heuristic (missing/placeholder key)`
+        );
+        return NextResponse.json({ ...localFallback, requestId });
     }
 
     try {
@@ -100,7 +205,7 @@ export async function POST(req: NextRequest) {
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
         const prompt = `
-You are a nutritional mood expert. User's mood: "${mood}"
+You are a nutritional mood expert. User's mood: "${trimmedMood}"
 Respond ONLY with valid JSON (no markdown):
 {
   "emotion": "<stressed | tired | happy | focused | sad | energetic | calm>",
@@ -110,16 +215,31 @@ Respond ONLY with valid JSON (no markdown):
 }
 `;
 
+        console.log(
+            `[analyze-mood] requestId=${requestId} inputMode=${inputMode ?? "unknown"} sustainChoice=${sustainChoice ?? "unknown"} -> calling Gemini`
+        );
+
         const result = await model.generateContent(prompt);
         const text = result.response.text().trim();
         const cleaned = text.replace(/^```json?\n?/, "").replace(/```$/, "").trim();
-        const parsed = JSON.parse(cleaned);
 
-        return NextResponse.json({ ...parsed, source: "gemini-ai" });
+        const parsed = JSON.parse(cleaned) as unknown;
+        const response = validateAndNormalize(parsed, localFallback, "gemini-ai");
 
-    } catch (err: any) {
+        console.log(
+            `[analyze-mood] requestId=${requestId} -> emotion=${response.emotion} intensity=${response.intensity} recommendedMoods=${response.recommendedMoods.join(
+                ","
+            )} source=${response.source}`
+        );
+
+        return NextResponse.json({ ...response, requestId });
+
+    } catch (err: unknown) {
         // If Gemini fails (429, 404, etc.), silently fallback to Local Engine
-        console.warn("[analyze-mood] Gemini AI failed. Falling back to Local Heuristic Engine.", err.message);
-        return NextResponse.json(localHeuristicEngine(mood));
+        console.warn(
+            `[analyze-mood] requestId=${requestId} Gemini AI failed. Falling back to Local Heuristic Engine.`,
+            err instanceof Error ? err.message : String(err)
+        );
+        return NextResponse.json({ ...localFallback, requestId });
     }
 }

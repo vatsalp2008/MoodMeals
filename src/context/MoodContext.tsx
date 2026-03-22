@@ -15,6 +15,10 @@ interface MoodContextType {
     setAnalysis: (a: MoodAnalysis | null) => void;
     preference: MealPreference;
     setPreference: (p: MealPreference) => void;
+    pantryItems: string[];
+    setPantryItems: (items: string[]) => void;
+    budget: number;
+    setBudget: (budget: number) => void;
 }
 
 const MoodContext = createContext<MoodContextType | undefined>(undefined);
@@ -22,9 +26,22 @@ const MoodContext = createContext<MoodContextType | undefined>(undefined);
 export const MoodProvider = ({ children }: { children: ReactNode }) => {
     const [analysis, setAnalysis] = useState<MoodAnalysis | null>(null);
     const [preference, setPreference] = useState<MealPreference>("veg");
+    const [pantryItems, setPantryItems] = useState<string[]>([]);
+    const [budget, setBudget] = useState<number>(40);
 
     return (
-        <MoodContext.Provider value={{ analysis, setAnalysis, preference, setPreference }}>
+        <MoodContext.Provider
+            value={{
+                analysis,
+                setAnalysis,
+                preference,
+                setPreference,
+                pantryItems,
+                setPantryItems,
+                budget,
+                setBudget,
+            }}
+        >
             {children}
         </MoodContext.Provider>
     );

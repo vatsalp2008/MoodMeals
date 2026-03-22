@@ -1,0 +1,75 @@
+@import url("../app/globals.css");
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.42);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 20px;
+}
+
+.modal {
+    width: 100%;
+    max-width: 720px;
+    border-radius: var(--radius-lg);
+    background: white;
+    border: 1.5px solid rgba(168, 196, 176, 0.35);
+    box-shadow: var(--shadow-md);
+    padding: 26px;
+}
+
+.title {
+    font-family: var(--font-lora), serif;
+    font-size: 2.0rem;
+    font-weight: 900;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+
+.subtitle {
+    color: var(--text-mid);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.primary {
+    padding: 14px 22px;
+    border-radius: 999px;
+    background: var(--text-dark);
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.secondary {
+    padding: 14px 22px;
+    border-radius: 999px;
+    border: 2px solid var(--beige-dark);
+    background: transparent;
+    color: var(--text-mid);
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.primary:hover {
+    transform: translateY(-2px);
+}
+
+.finePrint {
+    color: var(--text-light);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    font-weight: 700;
+}
+

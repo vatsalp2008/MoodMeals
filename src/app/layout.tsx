@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Lora } from "next/font/google";
 import "./globals.css";
+import PWARegister from "@/components/PWARegister";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -27,8 +28,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+            <head>
+                <link rel="manifest" href="/manifest.json" />
+                <meta name="theme-color" content="#2d3a2e" />
+            </head>
       <body className={`${plusJakartaSans.variable} ${lora.variable}`}>
         {children}
+                <PWARegister />
       </body>
     </html>
   );
