@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import styles from "./MealLibrary.module.css";
 import { MEALS } from "../data/meals";
 import { MealCuisine, MealDietFocus, MealType } from "../types";
+import type { SpoonacularRecipe } from "../app/api/recipes/route";
 import { useMood } from "../context/MoodContext";
 import { useGroceryOptional } from "../context/GroceryContext";
 import { useUser } from "../context/UserContext";
@@ -52,6 +53,11 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const [showAllOverride, setShowAllOverride] = useState(false);
 
+    // Spoonacular explore state
+    const [exploreRecipes, setExploreRecipes] = useState<SpoonacularRecipe[]>([]);
+    const [exploreLoading, setExploreLoading] = useState(false);
+    const [exploreError, setExploreError] = useState(false);
+
     // Granular filter state
     const [showFilters, setShowFilters] = useState(false);
     const [cuisineFilter, setCuisineFilter] = useState<MealCuisine | "all">("all");
@@ -80,7 +86,35 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
         return analysis.recommendedMoods;
     }, [analysis, sustainMode]);
 
-    const targetedNutrients = analysis?.targetedNutrients ?? [];
+    const targetedNutrients = useMemo(() => analysis?.targetedNutrients ?? [], [analysis]);
+
+    // Fetch Spoonacular recipes when targeted nutrients change
+    useEffect(() => {
+        if (targetedNutrients.length === 0) {
+            setExploreRecipes([]);
+            return;
+        }
+        let cancelled = false;
+        setExploreLoading(true);
+        setExploreError(false);
+
+        fetch(`/api/recipes?nutrients=${encodeURIComponent(targetedNutrients.join(","))}`)
+            .then(r => r.json())
+            .then(data => {
+                if (!cancelled) {
+                    setExploreRecipes(data.recipes ?? []);
+                    setExploreLoading(false);
+                }
+            })
+            .catch(() => {
+                if (!cancelled) {
+                    setExploreError(true);
+                    setExploreLoading(false);
+                }
+            });
+
+        return () => { cancelled = true; };
+    }, [targetedNutrients.join(",")]);
 
     const sortedMeals = useMemo(() => {
         // Filter out meals containing user's allergens
@@ -359,6 +393,82 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
                     >
                         Show all {sortedMeals.length} meals
                     </button>
+                )}
+
+                {/* Explore More — Spoonacular enrichment */}
+                {analysis && !gentleMode && (exploreLoading || exploreRecipes.length > 0 || exploreError) && (
+                    <div className={styles.exploreSection}>
+                        <div className={styles.exploreHeader}>
+                            <h3 className={styles.exploreTitle}>🧭 Explore More</h3>
+                            <span className={styles.explorePowered}>Powered by Spoonacular</span>
+                        </div>
+
+                        {exploreLoading && (
+                            <div className={styles.exploreGrid}>
+                                {[1, 2, 3].map(i => (
+                                    <div key={i} className={styles.skeletonCard}>
+                                        <div className={styles.skeletonImg} />
+                                        <div className={styles.skeletonBody}>
+                                            <div className={styles.skeletonLine} style={{ width: "75%" }} />
+                                            <div className={styles.skeletonLine} style={{ width: "50%" }} />
+                                            <div className={styles.skeletonBadges}>
+                                                <div className={styles.skeletonBadge} />
+                                                <div className={styles.skeletonBadge} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {exploreError && !exploreLoading && (
+                            <div className={styles.exploreEmpty}>
+                                <p>Couldn&apos;t load extra recipes right now.</p>
+                            </div>
+                        )}
+
+                        {!exploreLoading && !exploreError && exploreRecipes.length === 0 && (
+                            <div className={styles.exploreEmpty}>
+                                <p>🍴 No additional recipes found for these nutrients.</p>
+                            </div>
+                        )}
+
+                        {!exploreLoading && exploreRecipes.length > 0 && (
+                            <div className={styles.exploreGrid}>
+                                {exploreRecipes.map(recipe => (
+                                    <a
+                                        key={recipe.id}
+                                        href={recipe.sourceUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.exploreCard}
+                                    >
+                                        <div className={styles.exploreImgWrap}>
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img
+                                                src={recipe.image}
+                                                alt={recipe.title}
+                                                className={styles.exploreImg}
+                                            />
+                                        </div>
+                                        <div className={styles.exploreCardBody}>
+                                            <h4 className={styles.exploreCardTitle}>{recipe.title}</h4>
+                                            <div className={styles.exploreMeta}>
+                                                <span>🕐 {recipe.readyInMinutes}m</span>
+                                                {recipe.calories > 0 && <span>{recipe.calories} kcal</span>}
+                                            </div>
+                                            <div className={styles.exploreNutrients}>
+                                                {recipe.nutrients.map(n => (
+                                                    <span key={n} className={styles.nutrientBadge}>{n}</span>
+                                                ))}
+                                            </div>
+                                            <span className={styles.exploreLink}>View Recipe ↗</span>
+                                        </div>
+                                    </a>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 )}
             </div>
         </section>

@@ -212,6 +212,74 @@
     box-shadow: 0 4px 16px rgba(194, 123, 90, 0.35);
 }
 
+/* ── Voice-to-Text Mic Button ── */
+.textareaWrap {
+    position: relative;
+}
+
+.textareaWithMic {
+    padding-right: 52px;
+}
+
+.micBtn {
+    position: absolute;
+    bottom: 32px;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--sage-light);
+    background: var(--sage-pale);
+    color: var(--sage);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    flex-shrink: 0;
+}
+
+.micBtn:hover {
+    border-color: var(--sage);
+    transform: scale(1.05);
+}
+
+.micBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.micBtnRecording {
+    background: var(--coral);
+    border-color: var(--coral);
+    color: white;
+    animation: micBreathe 2s ease-in-out infinite;
+    box-shadow: 0 0 0 6px rgba(232, 131, 106, 0.2);
+}
+
+.micBtnRecording:hover {
+    background: var(--coral);
+    border-color: var(--coral);
+}
+
+@keyframes micBreathe {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 4px rgba(232, 131, 106, 0.15); }
+    50% { transform: scale(1.12); box-shadow: 0 0 0 8px rgba(232, 131, 106, 0.25); }
+}
+
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 @media (max-width: 600px) {
     .controls {
         flex-direction: column;
