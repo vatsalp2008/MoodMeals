@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import ThemeToggle from "./ThemeToggle";
 import styles from "./Navbar.module.css";
 
 const Navbar = () => {
@@ -22,6 +23,7 @@ const Navbar = () => {
                         <Link href="#try" className={styles.link}>Try It</Link>
                     </div>
 
+                    <ThemeToggle />
                     <Link href="/app" className={styles.openApp}>Open App →</Link>
 
                     <button

@@ -10,6 +10,8 @@ import { JournalProvider } from "@/context/JournalContext";
 import { UserProvider, useUser } from "@/context/UserContext";
 import { AllergyType } from "@/types";
 import BottomNav from "./BottomNav";
+import { XIcon, ArrowLeftIcon } from "./Icons";
+import ThemeToggle from "./ThemeToggle";
 import styles from "./AppShell.module.css";
 
 const NAV_LINKS = [
@@ -160,7 +162,7 @@ function UserArea() {
                             onClick={() => setShowSignIn(false)}
                             aria-label="Close sign in"
                         >
-                            ×
+                            <XIcon size={20} />
                         </button>
                         <h2 className={styles.modalTitle} id="modal-title">Welcome 👋</h2>
                         <p className={styles.modalSubtitle}>Sign in to personalize your experience</p>
@@ -221,8 +223,9 @@ function AppHeader() {
                     ))}
                 </nav>
                 <div className={styles.headerRight}>
+                    <ThemeToggle />
                     <UserArea />
-                    <Link href="/" className={styles.backLink}>← Home</Link>
+                    <Link href="/" className={styles.backLink}><ArrowLeftIcon /> Home</Link>
                 </div>
             </div>
         </header>

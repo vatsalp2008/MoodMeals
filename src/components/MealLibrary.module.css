@@ -1,8 +1,14 @@
 @import url("../app/globals.css");
 
 .section {
-    padding: 80px 0;
+    padding: 48px 0;
     text-align: center;
+}
+
+@media (min-width: 769px) {
+    .section {
+        padding: 64px 0;
+    }
 }
 
 .title {
@@ -24,7 +30,7 @@
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--text-dark);
-    background: white;
+    background: var(--surface);
     border: 1.5px solid var(--sage);
     border-radius: 999px;
     padding: 8px 24px;
@@ -74,7 +80,7 @@
 
 .active {
     background-color: var(--sage);
-    color: #fff;
+    color: var(--on-primary);
     border-color: var(--sage);
     box-shadow: 0 4px 16px rgba(122, 158, 135, 0.3);
 }
@@ -82,18 +88,31 @@
 /* Meal Grid */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 32px;
-    margin-top: 40px;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 32px;
+}
+
+@media (min-width: 600px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
 }
 
 /* Card */
 .card {
-    background: #fff;
+    background: var(--surface);
     border-radius: var(--radius-md);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
-    border: 1.5px solid rgba(168, 196, 176, 0.2);
+    border: 1.5px solid var(--border);
     transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
     text-align: left;
     position: relative;
@@ -114,8 +133,8 @@
     top: 12px;
     left: 12px;
     background: var(--sage);
-    color: white;
-    font-size: 0.72rem;
+    color: var(--surface);
+    font-size: var(--text-xs);
     font-weight: 700;
     padding: 4px 12px;
     border-radius: 999px;
@@ -163,7 +182,7 @@
 }
 
 .moodTag {
-    font-size: 0.72rem;
+    font-size: var(--text-xs);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -176,14 +195,24 @@
 
 .moodTagActive {
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
 }
 
 .calories {
-    font-size: 0.85rem;
+    font-size: var(--text-base);
     color: var(--text-light);
     font-weight: 600;
     white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+}
+
+.caloriesPct {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    opacity: 0.7;
 }
 
 /* Placeholder when no analysis */
@@ -267,7 +296,7 @@
 }
 
 .nutrientLabel {
-    font-size: 0.68rem;
+    font-size: var(--text-xs);
     color: var(--text-light);
     margin-top: 2px;
     text-transform: uppercase;
@@ -283,7 +312,7 @@
 }
 
 .metaTag {
-    font-size: 0.7rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     color: var(--text-mid);
     background: var(--beige);
@@ -291,6 +320,24 @@
     padding: 2px 9px;
     text-transform: capitalize;
     letter-spacing: 0.02em;
+}
+
+.pref-veg {
+    color: #2d6a3f;
+    background: #e2f3e8;
+    border: 1px solid #b5dcc2;
+}
+
+.pref-vegan {
+    color: #1b5e20;
+    background: #dcedc8;
+    border: 1px solid #a5d6a7;
+}
+
+.pref-non-veg {
+    color: #b53d2a;
+    background: #fde8e4;
+    border: 1px solid #f5c4bb;
 }
 
 /* ── Filter toggle row ── */
@@ -327,7 +374,7 @@
 
 .filterCount {
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     font-size: 0.7rem;
     font-weight: 700;
     border-radius: 999px;
@@ -354,7 +401,7 @@
 }
 
 .clearFiltersLink:hover {
-    color: #c05a3e;
+    color: var(--coral-dark);
 }
 
 /* ── Filter panel ── */
@@ -376,7 +423,7 @@
 }
 
 .filterRowLabel {
-    font-size: 0.72rem;
+    font-size: var(--text-xs);
     font-weight: 700;
     color: var(--text-mid);
     text-transform: uppercase;
@@ -404,7 +451,7 @@
     padding: 6px 14px;
     border-radius: 999px;
     border: 1.5px solid var(--beige-dark);
-    background: white;
+    background: var(--surface);
     font-size: 0.8rem;
     font-weight: 600;
     color: var(--text-mid);
@@ -421,7 +468,7 @@
 
 .chipActive {
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     border-color: var(--sage);
 }
 
@@ -448,14 +495,14 @@
 
 .addedBtn {
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     border-color: var(--sage);
 }
 
 .addedBtn:hover {
-    background: #c75a3e;
-    border-color: #c75a3e;
-    color: white;
+    background: var(--coral-dark);
+    border-color: var(--coral-dark);
+    color: var(--surface);
 }
 
 /* Targeted nutrient badges under AI message */
@@ -468,7 +515,7 @@
 }
 
 .nutrientBadge {
-    font-size: 0.72rem;
+    font-size: var(--text-xs);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -476,7 +523,7 @@
     color: var(--sage);
     padding: 4px 12px;
     border-radius: 999px;
-    border: 1px solid rgba(122, 158, 135, 0.25);
+    border: 1px solid var(--border);
 }
 
 /* Gentle mode — show all meals button */
@@ -495,7 +542,7 @@
 }
 .showAllBtn:hover {
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
 }
 
 /* ── Explore More (Spoonacular) ── */
@@ -523,7 +570,7 @@
 }
 
 .explorePowered {
-    font-size: 0.68rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     color: var(--text-light);
     opacity: 0.7;
@@ -538,7 +585,7 @@
 }
 
 .exploreCard {
-    background: rgba(253, 250, 244, 0.6);
+    background: var(--beige-pale);
     border: 1.5px dashed var(--beige-dark);
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -617,7 +664,7 @@
     border: 1.5px dashed var(--beige-dark);
     border-radius: var(--radius-md);
     overflow: hidden;
-    background: rgba(253, 250, 244, 0.6);
+    background: var(--beige-pale);
 }
 
 .skeletonImg {
@@ -654,4 +701,34 @@
     background: linear-gradient(90deg, var(--beige) 25%, var(--beige-dark) 50%, var(--beige) 75%);
     background-size: 800px 100%;
     animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ── View Recipe link (API meals) ── */
+.viewRecipeLink {
+    display: block;
+    margin-top: 12px;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--sage-pale);
+    color: var(--sage);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    transition: all var(--transition);
+    border: 1px solid var(--border);
+}
+
+.viewRecipeLink:hover {
+    background: var(--sage);
+    color: var(--on-primary);
+}
+
+/* ── Source attribution ── */
+.sourceAttribution {
+    margin-top: 32px;
+    font-size: 0.78rem;
+    color: var(--text-light);
+    text-align: center;
+    letter-spacing: 0.02em;
 }

@@ -8,6 +8,7 @@ import { useGroceryOptional } from "@/context/GroceryContext";
 import { useUserOptional } from "@/context/UserContext";
 import MoodInput from "@/components/MoodInput";
 import MealLibrary from "@/components/MealLibrary";
+import { OnboardingBanner, SignInPrompt } from "@/components/Onboarding";
 import styles from "./page.module.css";
 
 function getGreeting(): string {
@@ -118,12 +119,24 @@ export default function AppDashboard() {
         }
     }, [analysis, addEntry]);
 
+    const isLoggedIn = !!user;
+
     return (
         <div className={`${styles.page} ${isGentleMode ? styles.gentleMode : ""}`}>
+            {/* First-run onboarding */}
+            <OnboardingBanner />
+
             {/* Flow stepper */}
             <div className={styles.stepperWrap}>
                 <FlowStepper step={currentStep} />
             </div>
+
+            {/* Sign-in prompt — shown after mood analysis if not logged in */}
+            {analysis && !isLoggedIn && (
+                <SignInPrompt onSignIn={() => {
+                    document.querySelector<HTMLButtonElement>("[class*='signInBtn']")?.click();
+                }} />
+            )}
 
             {/* Greeting banner */}
             <div className={styles.greeting} id="mood-input">

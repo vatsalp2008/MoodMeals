@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useMood, MoodAnalysis } from "../context/MoodContext";
+import { MicIcon } from "./Icons";
 import styles from "./MoodInput.module.css";
 
 const SUSTAIN_TRIGGER_EMOTIONS = new Set(["happy", "energetic"]);
@@ -132,37 +133,31 @@ const MoodInput = () => {
                     {error && <div className={`${styles.status} ${styles.errorStatus} ${styles.visible}`}>⚠️ {error}</div>}
 
                     <form onSubmit={handleSubmit}>
-                        <div className={styles.textareaWrap}>
-                            <textarea
-                                className={`${styles.textarea} ${speechSupported ? styles.textareaWithMic : ""}`}
-                                placeholder="e.g., 'I'm super stressed from work and need something warm and comforting' or 'I'm feeling great and full of energy today!'"
-                                value={text}
-                                onChange={(e) => setText(e.target.value)}
-                                disabled={loading}
-                            />
-                            {speechSupported && (
-                                <button
-                                    type="button"
-                                    className={`${styles.micBtn} ${isListening ? styles.micBtnRecording : ""}`}
-                                    onClick={toggleListening}
-                                    disabled={loading}
-                                    aria-label={isListening ? "Stop voice input" : "Start voice input"}
-                                    aria-checked={isListening}
-                                    role="switch"
-                                >
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-                                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                                        <line x1="12" y1="19" x2="12" y2="23" />
-                                        <line x1="8" y1="23" x2="16" y2="23" />
-                                    </svg>
-                                </button>
-                            )}
-                            {isListening && <span className={styles.srOnly} aria-live="polite">Listening...</span>}
-                        </div>
+                        <textarea
+                            className={styles.textarea}
+                            placeholder="e.g., 'I'm super stressed from work and need something warm and comforting' or 'I'm feeling great and full of energy today!'"
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                            disabled={loading}
+                        />
+                        {isListening && <span className={styles.srOnly} aria-live="polite">Listening...</span>}
 
                         <div className={styles.controls}>
                             <div className={styles.preferenceGroup}>
+                                {speechSupported && (
+                                    <button
+                                        type="button"
+                                        className={`${styles.micBtn} ${isListening ? styles.micBtnRecording : ""}`}
+                                        onClick={toggleListening}
+                                        disabled={loading}
+                                        aria-label={isListening ? "Stop voice input" : "Start voice input"}
+                                        aria-checked={isListening}
+                                        role="switch"
+                                        title={isListening ? "Stop listening" : "Tap to speak your mood"}
+                                    >
+                                        <MicIcon size={18} />
+                                    </button>
+                                )}
                                 <span className={styles.prefLabel}>I eat:</span>
                                 {(["veg", "non-veg", "vegan"] as const).map((p) => (
                                     <button

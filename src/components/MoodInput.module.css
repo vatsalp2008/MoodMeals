@@ -1,9 +1,15 @@
 @import url("../app/globals.css");
 
 .section {
-    padding: 80px 0;
+    padding: 48px 0;
     background-color: var(--warm-white);
     text-align: center;
+}
+
+@media (min-width: 769px) {
+    .section {
+        padding: 64px 0;
+    }
 }
 
 .container {
@@ -25,7 +31,7 @@
 }
 
 .inputWrapper {
-    background: white;
+    background: var(--surface);
     padding: 32px;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
@@ -105,7 +111,7 @@
 
 .prefActive {
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     border-color: var(--sage);
     box-shadow: 0 4px 12px rgba(122, 158, 135, 0.3);
 }
@@ -114,7 +120,7 @@
     padding: 14px 28px;
     border-radius: 999px;
     background: var(--text-dark);
-    color: white;
+    color: var(--on-primary);
     font-weight: 700;
     border: none;
     cursor: pointer;
@@ -124,7 +130,7 @@
 }
 
 .submitBtn:hover {
-    background: #000;
+    background: var(--foreground);
     transform: translateY(-2px);
 }
 
@@ -141,7 +147,7 @@
     left: 50%;
     transform: translateX(-50%);
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     padding: 5px 20px;
     border-radius: 999px;
     font-size: 0.82rem;
@@ -158,7 +164,7 @@
 }
 
 .errorStatus {
-    background: #d9534f;
+    background: var(--error);
 }
 
 /* Sustain / Wind Down toggle */
@@ -200,31 +206,20 @@
 
 .sustainActive {
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     border-color: var(--sage);
     box-shadow: 0 4px 16px rgba(122, 158, 135, 0.35);
 }
 
 .winddownActive {
     background: var(--terracotta, #c27b5a);
-    color: white;
+    color: var(--on-primary);
     border-color: var(--terracotta, #c27b5a);
     box-shadow: 0 4px 16px rgba(194, 123, 90, 0.35);
 }
 
 /* ── Voice-to-Text Mic Button ── */
-.textareaWrap {
-    position: relative;
-}
-
-.textareaWithMic {
-    padding-right: 52px;
-}
-
 .micBtn {
-    position: absolute;
-    bottom: 32px;
-    right: 8px;
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -253,7 +248,7 @@
 .micBtnRecording {
     background: var(--coral);
     border-color: var(--coral);
-    color: white;
+    color: var(--on-primary);
     animation: micBreathe 2s ease-in-out infinite;
     box-shadow: 0 0 0 6px rgba(232, 131, 106, 0.2);
 }

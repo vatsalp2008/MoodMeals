@@ -1,0 +1,141 @@
+/* ── Welcome Banner ── */
+.banner {
+    background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+    color: var(--surface);
+    padding: 12px 24px;
+    animation: slideDown 0.4s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-100%); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.bannerInner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.bannerContent {
+    flex: 1;
+    min-width: 0;
+}
+
+.bannerTitle {
+    font-family: var(--font-lora), serif;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.bannerText {
+    font-size: var(--text-sm);
+    opacity: 0.92;
+    line-height: 1.5;
+}
+
+.bannerText strong {
+    font-weight: 700;
+    opacity: 1;
+}
+
+.bannerDismiss {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--surface);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.bannerDismiss:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* ── Sign-In Prompt ── */
+.prompt {
+    background: var(--surface);
+    border: 1.5px solid var(--sage-light);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeIn 0.3s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.promptText {
+    font-size: var(--text-base);
+    color: var(--text-mid);
+    flex: 1;
+    min-width: 200px;
+}
+
+.promptActions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.promptSignIn {
+    background: var(--sage);
+    color: var(--surface);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.promptSignIn:hover {
+    background: var(--sage-dark);
+}
+
+.promptLater {
+    background: transparent;
+    color: var(--text-light);
+    border: none;
+    padding: 8px 12px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: color var(--transition);
+}
+
+.promptLater:hover {
+    color: var(--text-dark);
+}
+
+@media (max-width: 768px) {
+    .bannerInner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .prompt {
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 12px 16px;
+    }
+}

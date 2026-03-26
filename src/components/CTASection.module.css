@@ -3,8 +3,8 @@
 .section {
     padding: 120px 0;
     text-align: center;
-    background: linear-gradient(135deg, var(--sage) 0%, #5f8a70 100%);
-    color: #fff;
+    background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+    color: var(--on-primary);
     border-radius: var(--radius-xl);
     margin: 0 24px 80px;
 }
@@ -25,7 +25,7 @@
 }
 
 .btn {
-    background: #fff;
+    background: var(--surface);
     color: var(--sage);
     padding: 18px 48px;
     border-radius: 999px;
@@ -33,12 +33,12 @@
     font-weight: 700;
     display: inline-block;
     transition: all var(--transition);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(var(--shadow-color), 0.1);
 }
 
 .btn:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 40px rgba(var(--shadow-color), 0.15);
     background: var(--cream);
 }
 

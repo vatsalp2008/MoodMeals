@@ -1,5 +1,6 @@
 .page {
     min-height: calc(100vh - 64px);
+    scroll-padding-bottom: 120px;
 }
 
 /* ── Flow Stepper ── */
@@ -53,17 +54,17 @@
 .stepCircleActive {
     background: var(--sage);
     border-color: var(--sage);
-    color: white;
+    color: var(--on-primary);
 }
 
 .stepCircleDone {
     background: var(--sage);
     border-color: var(--sage);
-    color: white;
+    color: var(--on-primary);
 }
 
 .stepCircleInactive {
-    background: white;
+    background: var(--surface);
     border-color: var(--beige-dark);
     color: var(--text-light);
 }
@@ -108,7 +109,7 @@
 
 .ctaBannerStep {
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     font-size: 0.72rem;
     font-weight: 700;
     border-radius: 999px;
@@ -177,7 +178,7 @@
     right: 16px;
     z-index: 50;
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     border-radius: 16px;
     padding: 12px 20px;
     display: flex;
@@ -211,11 +212,11 @@
 
 /* ── Gentle Mode (high-stress / depressive) ── */
 .gentleMode .greeting {
-    background: linear-gradient(135deg, #e8e0f0 0%, var(--cream) 70%);
+    background: linear-gradient(135deg, var(--lavender-pale) 0%, var(--cream) 70%);
 }
 
 .gentleMode .checkinWrap {
-    background: linear-gradient(160deg, #e8e0f0 0%, var(--warm-white) 100%);
+    background: linear-gradient(160deg, var(--lavender-pale) 0%, var(--warm-white) 100%);
 }
 
 .breathingDot {

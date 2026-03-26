@@ -21,8 +21,8 @@ export default function Home() {
                         🥗 MoodMeals
                     </Link>
                     <p className={styles.footerTagline}>
-                        The world&apos;s first emotion-aware nutrition platform.<br />
-                        Fuel your body according to your mind.
+                        Emotion-aware meal planning for college students.<br />
+                        Built on nutritional psychiatry research. Seattle-optimized budgets.
                     </p>
                     <div className={styles.footerLinks}>
                         <Link href="#how">How it Works</Link>

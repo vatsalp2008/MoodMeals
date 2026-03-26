@@ -29,12 +29,12 @@ const Hero = () => {
                     <div className={styles.content}>
                         <div className={styles.badge}>
                             <span className={styles.dot} />
-                            NEW: MOOD-SYNC™ 2.0 IS HERE
+                            POWERED BY NUTRITIONAL PSYCHIATRY
                         </div>
 
                         <h1 className={styles.headline}>
-                            Eat for how <br />
-                            you <em>feel.</em>
+                            Stress-eat <br />
+                            <em>smarter.</em>
                         </h1>
 
                         <div className={styles.moodWordWrap}>
@@ -48,8 +48,9 @@ const Hero = () => {
                         </div>
 
                         <p className={styles.copy}>
-                            MoodMeals maps your emotional state to science-backed nutritional
-                            profiles. Tell us how you feel, get meals that actually help.
+                            MoodMeals maps your emotional state to clinically-backed nutrients
+                            (Jacka et al., 2017; Opie et al., 2015). Meals matched to your mood,
+                            on a student budget.
                         </p>
 
                         <div className={styles.actions}>

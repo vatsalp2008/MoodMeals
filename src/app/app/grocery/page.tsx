@@ -194,7 +194,7 @@ export default function GroceryPage() {
                         <button
                             className={`${styles.prepToggle} ${mealPrepEnabled ? styles.prepToggleOn : ""}`}
                             onClick={handlePrepToggle}
-                            aria-pressed={mealPrepEnabled}
+                            aria-checked={mealPrepEnabled}
                             role="switch"
                         >
                             <span className={styles.prepToggleThumb} />
@@ -226,7 +226,7 @@ export default function GroceryPage() {
                         <button
                             className={`${styles.prepToggle} ${budgetMode ? styles.prepToggleOn : ""}`}
                             onClick={() => setBudgetMode(v => !v)}
-                            aria-pressed={budgetMode}
+                            aria-checked={budgetMode}
                             role="switch"
                         >
                             <span className={styles.prepToggleThumb} />
@@ -237,134 +237,137 @@ export default function GroceryPage() {
             </div>
 
             <div className={styles.container}>
-                {/* Selected meal cards with servings */}
-                <div className={styles.mealCards}>
-                    {selectedMeals.map(meal => {
-                        const servings = mealServings[meal.id] ?? 1;
-                        return (
-                            <div key={meal.id} className={styles.mealCard}>
-                                <div className={styles.mealImg}>
-                                    <Image src={meal.image} alt={meal.name} fill className={styles.mealImgEl} />
-                                </div>
-                                <div className={styles.mealInfo}>
-                                    <p className={styles.mealName}>{meal.name}</p>
-                                    <p className={styles.mealCal}>{meal.calories} kcal</p>
-                                </div>
-                                {/* Servings control */}
-                                <div className={styles.servingsControl}>
-                                    {[1, 2, 3, 4].map(n => (
-                                        <button
-                                            key={n}
-                                            className={`${styles.servingBtn} ${servings === n ? styles.servingBtnActive : ""}`}
-                                            onClick={() => setServings(meal.id, n)}
-                                            aria-label={`${n} serving${n !== 1 ? "s" : ""}`}
-                                        >
-                                            {n}×
-                                        </button>
-                                    ))}
-                                </div>
-                                <button
-                                    className={styles.mealRemove}
-                                    onClick={() => removeMeal(meal.id)}
-                                    aria-label={`Remove ${meal.name}`}
-                                >
-                                    ×
-                                </button>
-                            </div>
-                        );
-                    })}
-                </div>
-
-                {/* Ingredients list */}
-                <div className={styles.ingredientSection}>
-                    <h2 className={styles.sectionTitle}>Ingredients needed</h2>
-
-                    {CAT_ORDER.filter(cat => grouped[cat]?.length).map(cat => (
-                        <div key={cat} className={styles.catGroup}>
-                            <h3 className={styles.catTitle}>
-                                {CAT_ICONS[cat] || "📦"} {CAT_LABELS[cat] || cat}
-                            </h3>
-                            <ul className={styles.ingList}>
-                                {grouped[cat].map(ing => (
-                                    <li
-                                        key={ing.name}
-                                        className={`${styles.ingItem} ${ing.inPantry ? styles.inPantry : ""}`}
+                {/* Sidebar: selected meal cards */}
+                <div className={styles.sidebar}>
+                    <div className={styles.mealCards}>
+                        {selectedMeals.map(meal => {
+                            const servings = mealServings[meal.id] ?? 1;
+                            return (
+                                <div key={meal.id} className={styles.mealCard}>
+                                    <div className={styles.mealImg}>
+                                        <Image src={meal.image} alt={meal.name} fill className={styles.mealImgEl} />
+                                    </div>
+                                    <div className={styles.mealInfo}>
+                                        <p className={styles.mealName}>{meal.name}</p>
+                                        <p className={styles.mealCal}>{meal.calories} kcal</p>
+                                    </div>
+                                    <div className={styles.servingsControl}>
+                                        {[1, 2, 3, 4].map(n => (
+                                            <button
+                                                key={n}
+                                                className={`${styles.servingBtn} ${servings === n ? styles.servingBtnActive : ""}`}
+                                                onClick={() => setServings(meal.id, n)}
+                                                aria-label={`${n} serving${n !== 1 ? "s" : ""}`}
+                                            >
+                                                {n}×
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <button
+                                        className={styles.mealRemove}
+                                        onClick={() => removeMeal(meal.id)}
+                                        aria-label={`Remove ${meal.name}`}
                                     >
-                                        <span className={styles.ingCheck}>
-                                            {ing.inPantry ? "✓" : "○"}
-                                        </span>
-                                        <span className={styles.ingName}>
-                                            {ing.name}
-                                            {budgetMode && BUDGET_ALTERNATIVES[ing.name.toLowerCase()] && (
-                                                <span className={styles.budgetTipBadge}>
-                                                    💰 {BUDGET_ALTERNATIVES[ing.name.toLowerCase()].tip}
-                                                </span>
-                                            )}
-                                        </span>
-                                        <span className={styles.ingAmount}>
-                                            {ing.amounts.join(", ")}
-                                            {ing.totalMultiplier > 1 && (
-                                                <span className={styles.multiplierBadge}>
-                                                    ×{ing.totalMultiplier}
-                                                </span>
-                                            )}
-                                        </span>
-                                        {ing.inPantry && (
-                                            <span className={styles.pantryBadge}>In pantry</span>
-                                        )}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Budget estimate */}
-                <div className={styles.budget}>
-                    <span className={styles.budgetLabel}>Estimated grocery budget</span>
-                    <span className={styles.budgetAmount}>${estimatedBudget}</span>
-                </div>
-
-                {/* Seattle Budget Tips */}
-                {budgetMode && (
-                    <div className={styles.tipsCard}>
-                        <h3 className={styles.tipsCardTitle}>🏫 Seattle Student Savings</h3>
-                        {(showAllTips ? SEATTLE_BUDGET_TIPS : SEATTLE_BUDGET_TIPS.slice(0, 3)).map(tip => (
-                            <div key={tip.id} className={styles.tipItem}>
-                                <span className={styles.tipIcon}>{TIP_CATEGORY_ICONS[tip.category] || "💡"}</span>
-                                <div className={styles.tipContent}>
-                                    <p className={styles.tipTitle}>{tip.title}</p>
-                                    <p className={styles.tipDesc}>{tip.description}</p>
+                                        ×
+                                    </button>
                                 </div>
-                                {tip.savingsEstimate && (
-                                    <span className={styles.tipSavings}>Save {tip.savingsEstimate}</span>
-                                )}
+                            );
+                        })}
+                    </div>
+
+                    {/* Budget estimate */}
+                    <div className={styles.budget}>
+                        <span className={styles.budgetLabel}>Estimated grocery budget</span>
+                        <span className={styles.budgetAmount}>${estimatedBudget}</span>
+                    </div>
+                </div>
+
+                {/* Main column: ingredients + tips + pantry action */}
+                <div className={styles.mainCol}>
+                    <div className={styles.ingredientSection}>
+                        <h2 className={styles.sectionTitle}>Ingredients needed</h2>
+
+                        {CAT_ORDER.filter(cat => grouped[cat]?.length).map(cat => (
+                            <div key={cat} className={styles.catGroup}>
+                                <h3 className={styles.catTitle}>
+                                    {CAT_ICONS[cat] || "📦"} {CAT_LABELS[cat] || cat}
+                                </h3>
+                                <ul className={styles.ingList}>
+                                    {grouped[cat].map(ing => (
+                                        <li
+                                            key={ing.name}
+                                            className={`${styles.ingItem} ${ing.inPantry ? styles.inPantry : ""}`}
+                                        >
+                                            <span className={styles.ingCheck}>
+                                                {ing.inPantry ? "✓" : "○"}
+                                            </span>
+                                            <span className={styles.ingName}>
+                                                {ing.name}
+                                                {budgetMode && BUDGET_ALTERNATIVES[ing.name.toLowerCase()] && (
+                                                    <span className={styles.budgetTipBadge}>
+                                                        💰 {BUDGET_ALTERNATIVES[ing.name.toLowerCase()].tip}
+                                                    </span>
+                                                )}
+                                            </span>
+                                            <span className={styles.ingAmount}>
+                                                {ing.amounts.join(", ")}
+                                                {ing.totalMultiplier > 1 && (
+                                                    <span className={styles.multiplierBadge}>
+                                                        ×{ing.totalMultiplier}
+                                                    </span>
+                                                )}
+                                            </span>
+                                            {ing.inPantry && (
+                                                <span className={styles.pantryBadge}>In pantry</span>
+                                            )}
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         ))}
-                        {SEATTLE_BUDGET_TIPS.length > 3 && (
-                            <button
-                                className={styles.seeAllBtn}
-                                onClick={() => setShowAllTips(v => !v)}
-                            >
-                                {showAllTips ? "Show less" : `See all ${SEATTLE_BUDGET_TIPS.length} tips`}
-                            </button>
-                        )}
                     </div>
-                )}
 
-                {/* Done shopping — Add all to pantry */}
-                <div className={styles.addToPantryWrap}>
-                    {successCount !== null && (
-                        <div className={styles.successMsg}>
-                            ✓ Added {successCount} item{successCount !== 1 ? "s" : ""} to your pantry!
+                    {/* Seattle Budget Tips */}
+                    {budgetMode && (
+                        <div className={styles.tipsCard}>
+                            <h3 className={styles.tipsCardTitle}>🏫 Seattle Student Savings</h3>
+                            {(showAllTips ? SEATTLE_BUDGET_TIPS : SEATTLE_BUDGET_TIPS.slice(0, 3)).map(tip => (
+                                <div key={tip.id} className={styles.tipItem}>
+                                    <span className={styles.tipIcon}>{TIP_CATEGORY_ICONS[tip.category] || "💡"}</span>
+                                    <div className={styles.tipContent}>
+                                        <p className={styles.tipTitle}>{tip.title}</p>
+                                        <p className={styles.tipDesc}>{tip.description}</p>
+                                    </div>
+                                    {tip.savingsEstimate && (
+                                        <span className={styles.tipSavings}>Save {tip.savingsEstimate}</span>
+                                    )}
+                                </div>
+                            ))}
+                            {SEATTLE_BUDGET_TIPS.length > 3 && (
+                                <button
+                                    className={styles.seeAllBtn}
+                                    onClick={() => setShowAllTips(v => !v)}
+                                >
+                                    {showAllTips ? "Show less" : `See all ${SEATTLE_BUDGET_TIPS.length} tips`}
+                                </button>
+                            )}
                         </div>
                     )}
-                    <button className={styles.addToPantryBtn} onClick={handleAddAllToPantry}>
-                        🛍 Mark as Shopped — Add to Pantry
-                    </button>
-                    <p className={styles.addToPantryHint}>
-                        Done shopping? Add everything to your pantry.
-                    </p>
+
+                    {/* Done shopping — Add all to pantry */}
+                    <div className={styles.addToPantryWrap}>
+                        {successCount !== null && (
+                            <div className={styles.successMsg}>
+                                ✓ Added {successCount} item{successCount !== 1 ? "s" : ""} to your pantry!
+                            </div>
+                        )}
+                        <button className={styles.addToPantryBtn} onClick={handleAddAllToPantry}>
+                            🛍 Mark as Shopped — Add to Pantry
+                        </button>
+                        <p className={styles.addToPantryHint}>
+                            Done shopping? Add everything to your pantry.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

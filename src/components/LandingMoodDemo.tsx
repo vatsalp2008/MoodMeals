@@ -48,7 +48,12 @@ export default function LandingMoodDemo() {
     // Pick top 3 meals matching the analysis
     const resultMeals = (() => {
         if (!analysis) return [];
-        const byPref = MEALS.filter(m => m.preference === preference);
+        // non-veg sees all; veg sees veg + vegan; vegan sees only vegan
+        const byPref = MEALS.filter(m =>
+            preference === "non-veg" ? true
+            : preference === "veg" ? m.preference === "veg" || m.preference === "vegan"
+            : m.preference === "vegan"
+        );
         const matched = byPref.filter(m =>
             m.moodSync.some(tag => analysis.recommendedMoods.includes(tag))
         );
@@ -142,6 +147,9 @@ export default function LandingMoodDemo() {
                                         <p className={styles.mealDesc}>{meal.description}</p>
                                         <div className={styles.mealMeta}>
                                             <div className={styles.moodTags}>
+                                                <span className={`${styles.moodTag} ${styles[`pref-${meal.preference}`]}`}>
+                                                    {meal.preference === "veg" ? "🥗 Veg" : meal.preference === "vegan" ? "🌱 Vegan" : "🍗 Non-Veg"}
+                                                </span>
                                                 {meal.moodSync.slice(0, 2).map(tag => (
                                                     <span key={tag} className={styles.moodTag}>{tag}</span>
                                                 ))}

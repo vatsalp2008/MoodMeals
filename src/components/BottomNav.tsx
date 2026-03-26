@@ -4,13 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useGroceryOptional } from "@/context/GroceryContext";
 import { useJournalOptional } from "@/context/JournalContext";
+import { HomeIcon, CarrotIcon, CartIcon, BookIcon } from "./Icons";
 import styles from "./BottomNav.module.css";
 
 const TABS = [
-    { href: "/app", icon: "🏠", label: "Dashboard" },
-    { href: "/app/pantry", icon: "🥕", label: "Pantry" },
-    { href: "/app/grocery", icon: "🛒", label: "Grocery" },
-    { href: "/app/journal", icon: "📓", label: "Journal" },
+    { href: "/app", Icon: HomeIcon, label: "Dashboard" },
+    { href: "/app/pantry", Icon: CarrotIcon, label: "Pantry" },
+    { href: "/app/grocery", Icon: CartIcon, label: "Grocery" },
+    { href: "/app/journal", Icon: BookIcon, label: "Journal" },
 ] as const;
 
 export default function BottomNav() {
@@ -23,7 +24,7 @@ export default function BottomNav() {
 
     return (
         <nav className={styles.nav} aria-label="Mobile navigation">
-            {TABS.map(({ href, icon, label }) => {
+            {TABS.map(({ href, Icon, label }) => {
                 const isActive = pathname === href;
                 const isGrocery = href === "/app/grocery";
                 const isJournal = href === "/app/journal";
@@ -36,7 +37,7 @@ export default function BottomNav() {
                         aria-current={isActive ? "page" : undefined}
                     >
                         <span className={styles.iconWrap} aria-hidden="true">
-                            <span className={styles.icon}>{icon}</span>
+                            <span className={styles.icon}><Icon /></span>
                             {isGrocery && groceryCount > 0 && (
                                 <span className={styles.badge} aria-label={`${groceryCount} meals`}>
                                     {groceryCount}

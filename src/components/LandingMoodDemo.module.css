@@ -41,7 +41,7 @@
 .card {
     max-width: 720px;
     margin: 0 auto 40px;
-    background: white;
+    background: var(--surface);
     border-radius: var(--radius-lg);
     padding: 32px;
     box-shadow: var(--shadow-md);
@@ -49,7 +49,7 @@
 }
 
 .errorBanner {
-    background: #fde8e4;
+    background: var(--error-bg);
     color: var(--coral);
     padding: 10px 16px;
     border-radius: var(--radius-sm);
@@ -123,14 +123,14 @@
 
 .prefActive {
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     border-color: var(--sage);
 }
 
 .submitBtn {
     padding: 12px 26px;
     background: var(--text-dark);
-    color: white;
+    color: var(--on-primary);
     border-radius: 999px;
     font-weight: 700;
     font-size: 0.9rem;
@@ -142,7 +142,7 @@
 }
 
 .submitBtn:hover {
-    background: #000;
+    background: var(--foreground);
     transform: translateY(-1px);
 }
 
@@ -168,7 +168,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: white;
+    background: var(--surface);
     border: 1.5px solid var(--sage);
     border-radius: 999px;
     padding: 8px 22px;
@@ -197,7 +197,7 @@
 }
 
 .mealCard {
-    background: white;
+    background: var(--surface);
     border-radius: var(--radius-md);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
@@ -267,6 +267,24 @@
     border-radius: 999px;
 }
 
+.pref-veg {
+    color: #2d6a3f;
+    background: #e2f3e8;
+    border: 1px solid #b5dcc2;
+}
+
+.pref-vegan {
+    color: #1b5e20;
+    background: #dcedc8;
+    border: 1px solid #a5d6a7;
+}
+
+.pref-non-veg {
+    color: #b53d2a;
+    background: #fde8e4;
+    border: 1px solid #f5c4bb;
+}
+
 .mealCal {
     font-size: 0.8rem;
     color: var(--text-light);
@@ -283,7 +301,7 @@
 .seeAllLink {
     display: inline-block;
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     padding: 14px 36px;
     border-radius: 999px;
     font-weight: 700;
@@ -293,7 +311,7 @@
 }
 
 .seeAllLink:hover {
-    background: #5f8a70;
+    background: var(--sage-dark);
     transform: translateY(-2px);
 }
 

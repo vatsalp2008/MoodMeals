@@ -9,10 +9,10 @@ const TheScience = () => {
                     <span className={styles.label}>SCIENCE-BACKED</span>
                     <h2 className={styles.title}>The link <br />between mind <br />and plate.</h2>
                     <p className={styles.text}>
-                        Our AI-Sync technology is based on emerging research in
-                        nutritional psychiatry, mapping the correlation between
-                        serotonin levels and carbohydrate intake, among other
-                        crucial biological factors.
+                        MoodMeals is grounded in nutritional psychiatry research. The
+                        SMILES trial (Jacka et al., 2017) demonstrated that dietary
+                        improvements significantly reduced depression symptoms. Opie et al.
+                        (2015) mapped specific nutrients to mood regulation pathways.
                     </p>
 
                     <ul className={styles.list}>

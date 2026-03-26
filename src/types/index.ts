@@ -34,6 +34,7 @@ export interface Meal {
     mealType: MealType;
     nutrientProfile?: Record<string, number>;
     allergens?: AllergyType[];
+    sourceUrl?: string;
 }
 
 export type ClinicalMoodState = "high-stress" | "cognitive-fatigue" | "depressive" | "poor-focus" | "burnout";

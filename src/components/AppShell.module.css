@@ -10,7 +10,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(253, 250, 244, 0.92);
+    background: var(--surface-glass);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--beige-dark);
@@ -65,7 +65,7 @@
 
 .navLinkActive {
     background: var(--sage);
-    color: #fff !important;
+    color: var(--surface);
 }
 
 /* ── Header right cluster ── */
@@ -77,11 +77,14 @@
 }
 
 .backLink {
-    font-size: 0.82rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--text-light);
     white-space: nowrap;
     transition: color var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .backLink:hover {
@@ -102,16 +105,16 @@
     justify-content: center;
     font-size: 0.85rem;
     font-weight: 700;
-    color: white;
+    color: var(--on-primary);
     cursor: pointer;
     border: 2px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 8px rgba(var(--shadow-color), 0.12);
     transition: box-shadow var(--transition), transform var(--transition);
     flex-shrink: 0;
 }
 
 .avatar:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 4px 12px rgba(var(--shadow-color), 0.18);
     transform: scale(1.05);
 }
 
@@ -130,7 +133,7 @@
 
 .signInBtn:hover {
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     border-color: var(--sage);
 }
 
@@ -140,7 +143,7 @@
     top: calc(100% + 10px);
     right: 0;
     min-width: 180px;
-    background: white;
+    background: var(--surface);
     border-radius: var(--radius-md);
     border: 1px solid var(--beige-dark);
     box-shadow: var(--shadow-md);
@@ -190,7 +193,7 @@
 }
 
 .dropdownSignOut:hover {
-    color: #c05a3e;
+    color: var(--coral-dark);
 }
 
 /* ── Sign-in modal ── */
@@ -270,7 +273,7 @@
     padding: 12px 16px;
     border-radius: var(--radius-sm);
     border: 1.5px solid var(--beige-dark);
-    background: white;
+    background: var(--surface);
     font-size: 0.95rem;
     color: var(--text-dark);
     font-family: inherit;
@@ -291,7 +294,7 @@
     padding: 13px;
     border-radius: var(--radius-sm);
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     font-size: 0.95rem;
     font-weight: 700;
     font-family: inherit;
@@ -301,7 +304,7 @@
 }
 
 .modalBtn:hover:not(:disabled) {
-    background: #5f8a70;
+    background: var(--sage-dark);
     transform: translateY(-1px);
 }
 
@@ -312,21 +315,21 @@
 
 /* ── Allergy chips ── */
 .allergySection { margin-top: 12px; }
-.allergySectionLabel { font-size: 0.85rem; color: var(--text-secondary, #6b7280); margin-bottom: 8px; display: block; }
+.allergySectionLabel { font-size: var(--text-base); color: var(--text-secondary); margin-bottom: 8px; display: block; }
 .allergyChips { display: flex; flex-wrap: wrap; gap: 6px; }
 .allergyChip {
     padding: 4px 12px;
     border-radius: 999px;
-    border: 1.5px solid var(--sage, #7a9e87);
+    border: 1.5px solid var(--sage);
     background: transparent;
-    color: var(--sage, #7a9e87);
+    color: var(--sage);
     font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.2s;
 }
 .allergyChipActive {
-    background: var(--sage, #7a9e87);
-    color: white;
+    background: var(--sage);
+    color: var(--on-primary);
 }
 
 /* ── Manage allergies in dropdown ── */
@@ -335,7 +338,7 @@
     text-align: left;
     font-size: 0.82rem;
     font-weight: 600;
-    color: var(--sage, #7a9e87);
+    color: var(--sage);
     cursor: pointer;
     padding: 4px 0;
     background: none;
@@ -343,19 +346,25 @@
     transition: color 0.2s;
 }
 .manageAllergiesBtn:hover {
-    color: #5f8a70;
+    color: var(--sage-dark);
 }
 
 /* ── Main content ── */
 .main {
     flex: 1;
-    padding-bottom: 80px; /* space for bottom nav on mobile */
 }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-    .desktopNav,
-    .backLink {
+    .desktopNav {
         display: none;
+    }
+
+    .backLink {
+        font-size: var(--text-xs);
+    }
+
+    .main {
+        padding-bottom: 80px; /* space for bottom nav on mobile only */
     }
 }
