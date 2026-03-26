@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { MoodProvider } from "@/context/MoodContext";
 import { PantryProvider } from "@/context/PantryContext";
 import { GroceryProvider } from "@/context/GroceryContext";
@@ -151,7 +152,7 @@ function UserArea() {
             <button className={styles.signInBtn} onClick={() => setShowSignIn(true)}>
                 Sign In
             </button>
-            {showSignIn && (
+            {showSignIn && createPortal(
                 <div
                     className={styles.modalOverlay}
                     onClick={(e) => { if (e.target === e.currentTarget) setShowSignIn(false); }}
@@ -197,7 +198,8 @@ function UserArea() {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </>
     );
