@@ -111,6 +111,10 @@ const MoodInput = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (isListening) {
+            recognitionRef.current?.stop();
+            setIsListening(false);
+        }
         const trimmed = text.trim();
         if (!trimmed) return;
 
@@ -145,6 +149,8 @@ const MoodInput = () => {
 
             const data: MoodAnalysis = await res.json();
             setAnalysis(data);
+            setText("");
+            localStorage.removeItem("moodmeals_mood_input");
 
             // Scroll to the meal grid after a brief pause
             setTimeout(() => {

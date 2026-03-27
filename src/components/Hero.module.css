@@ -293,4 +293,53 @@
     .chipOne { left: -5%; }
     .chipTwo { right: -5%; }
     .chipThree { left: 2%; }
+
+    .imgWrap {
+        max-width: 360px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero {
+        padding-top: 80px;
+        padding-bottom: 48px;
+        min-height: calc(100dvh - 60px);
+    }
+
+    .headline {
+        font-size: 1.8rem;
+    }
+
+    .copy {
+        font-size: 0.92rem;
+    }
+
+    .badge {
+        font-size: 0.72rem;
+        padding: 5px 12px;
+    }
+
+    .btnPrimary {
+        padding: 12px 24px;
+        font-size: 0.88rem;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .btnSecondary {
+        padding: 11px 20px;
+        font-size: 0.88rem;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .visual {
+        display: none;
+    }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo, ReactNode } from "react";
 import { MealPreference, MoodAnalysis } from "../types";
 
 export type { MoodAnalysis };
@@ -54,8 +54,12 @@ export const MoodProvider = ({ children }: { children: ReactNode }) => {
         try { localStorage.setItem("moodmeals_sustainMode", JSON.stringify(sustainMode)); } catch { /* ignore */ }
     }, [sustainMode]);
 
+    const contextValue = useMemo(() => ({
+        analysis, setAnalysis, preference, setPreference, sustainMode, setSustainMode,
+    }), [analysis, preference, sustainMode]);
+
     return (
-        <MoodContext.Provider value={{ analysis, setAnalysis, preference, setPreference, sustainMode, setSustainMode }}>
+        <MoodContext.Provider value={contextValue}>
             {children}
         </MoodContext.Provider>
     );

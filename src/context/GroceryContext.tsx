@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from "react";
 import { Meal } from "../types";
 
 interface GroceryContextType {
@@ -53,39 +53,44 @@ export const GroceryProvider = ({ children }: { children: ReactNode }) => {
         } catch { /* ignore */ }
     }, [selectedMeals, mealServings, mealPrepDays]);
 
-    const addMeal = (meal: Meal) => {
-        if (selectedMeals.some(m => m.id === meal.id)) return;
-        setSelectedMeals(prev => [...prev, meal]);
-    };
+    const addMeal = useCallback((meal: Meal) => {
+        setSelectedMeals(prev => {
+            if (prev.some(m => m.id === meal.id)) return prev;
+            return [...prev, meal];
+        });
+    }, []);
 
-    const removeMeal = (id: string) => {
+    const removeMeal = useCallback((id: string) => {
         setSelectedMeals(prev => prev.filter(m => m.id !== id));
         setMealServings(prev => {
             const { [id]: _removed, ...rest } = prev;
             return rest;
         });
-    };
+    }, []);
 
-    const hasMeal = (id: string) => selectedMeals.some(m => m.id === id);
+    const hasMeal = useCallback((id: string) => selectedMeals.some(m => m.id === id), [selectedMeals]);
 
-    const clearMeals = () => {
+    const clearMeals = useCallback(() => {
         setSelectedMeals([]);
         setMealServings({});
-    };
+    }, []);
 
-    const setServings = (mealId: string, count: number) => {
+    const setServings = useCallback((mealId: string, count: number) => {
         setMealServings(prev => ({ ...prev, [mealId]: Math.max(1, count) }));
-    };
+    }, []);
 
-    const setMealPrepDays = (days: number) => {
+    const setMealPrepDays = useCallback((days: number) => {
         setMealPrepDaysState(Math.max(1, Math.min(7, days)));
-    };
+    }, []);
+
+    const contextValue = useMemo(() => ({
+        selectedMeals, addMeal, removeMeal, hasMeal, clearMeals,
+        mealServings, setServings, mealPrepDays, setMealPrepDays,
+    }), [selectedMeals, addMeal, removeMeal, hasMeal, clearMeals,
+        mealServings, setServings, mealPrepDays, setMealPrepDays]);
 
     return (
-        <GroceryContext.Provider value={{
-            selectedMeals, addMeal, removeMeal, hasMeal, clearMeals,
-            mealServings, setServings, mealPrepDays, setMealPrepDays,
-        }}>
+        <GroceryContext.Provider value={contextValue}>
             {children}
         </GroceryContext.Provider>
     );

@@ -2,7 +2,6 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import TheScience from "@/components/TheScience";
-import Testimonial from "@/components/Testimonial";
 import LandingMoodDemo from "@/components/LandingMoodDemo";
 import CTASection from "@/components/CTASection";
 import Link from "next/link";
@@ -15,7 +14,6 @@ export default function Home() {
             <Hero />
             <HowItWorks />
             <TheScience />
-            <Testimonial />
             <LandingMoodDemo />
             <CTASection />
 

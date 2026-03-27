@@ -48,7 +48,18 @@
       "Bash(cp .claude/worktrees/agent-a5748e02/src/app/auth/callback/route.ts src/app/auth/callback/route.ts)",
       "WebFetch(domain:supabase.com)",
       "WebFetch(domain:the-shubham.medium.com)",
-      "WebFetch(domain:dev.to)"
+      "WebFetch(domain:dev.to)",
+      "Read(//c/Users/rjjos/.claude/projects//**)",
+      "Bash(grep -r \"API 1\\\\|API 2\\\\|UI 1\\\\|UI 2\\\\|Mobile 1\\\\|bug\\\\|issue\" /c/Users/rjjos/Documents/NEU/Hackathon/MoodMeals --include=*.md --include=*.txt --exclude-dir=node_modules)",
+      "Bash(grep -r \"API 1\\\\|API 2\\\\|UI 1\\\\|UI 2\\\\|UI 3\\\\|UI 4\\\\|UI 5\\\\|UI 6\\\\|Mobile 1\\\\|Mobile 2\\\\|Mobile 3\\\\|Mobile 4\\\\|Mobile 6\\\\|Mobile 7\\\\|Mobile 8\" /c/Users/rjjos/Documents/NEU/Hackathon/MoodMeals/src --include=*.ts --include=*.tsx --include=*.js --include=*.jsx)",
+      "Bash(grep -r \"BUG\\\\|TODO\\\\|FIXME\\\\|HACK\" /c/Users/rjjos/Documents/NEU/Hackathon/MoodMeals/src --include=*.ts --include=*.tsx --include=*.js --include=*.jsx)",
+      "Bash(find /c/Users/rjjos/Documents/NEU/Hackathon/MoodMeals/.claude -type f \\\\\\(-name *.md -o -name *.txt -o -name *.json \\\\\\))",
+      "Bash(ls -lh /c/Users/rjjos/.claude/projects/c--Users-rjjos-Documents-NEU-Hackathon-MoodMeals/*.jsonl)",
+      "Bash(jq -r \".message.content[]? | select\\(.type==\"\"text\"\"\\) | .text\" /c/Users/rjjos/.claude/projects/c--Users-rjjos-Documents-NEU-Hackathon-MoodMeals/e1df75f4-c564-4763-8795-4a1bf4973ba4.jsonl)",
+      "Bash(python3:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git stash:*)",
+      "Bash(git merge:*)"
     ]
   }
 }

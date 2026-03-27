@@ -180,6 +180,52 @@
   font-style: italic;
 }
 
+/* ── Responsive: mobile screens ── */
+@media (max-width: 640px) {
+    .card {
+        padding: 14px;
+    }
+
+    .circle {
+        width: 28px;
+        height: 28px;
+    }
+
+    .emoji {
+        font-size: 0.8rem;
+    }
+
+    .line {
+        top: 14px;
+        height: 1.5px;
+    }
+
+    .milestoneGroup {
+        min-width: 56px;
+    }
+
+    .milestoneLabel {
+        font-size: 0.58rem;
+    }
+
+    .milestoneHint {
+        font-size: 0.54rem;
+    }
+
+    .statNumber {
+        font-size: 1.1rem;
+    }
+
+    .statLabel {
+        font-size: 0.62rem;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+}
+
 /* ── Responsive: stack on very small screens ── */
 @media (max-width: 420px) {
   .track {

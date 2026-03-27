@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from "react";
 
 export type PantryUnit = "g" | "kg" | "ml" | "L" | "oz" | "lb" | "cups" | "tbsp" | "tsp" | "pieces" | "bunch" | "";
 
@@ -115,8 +115,12 @@ export const PantryProvider = ({ children }: { children: ReactNode }) => {
         return "available";
     }, [findMatchingItem]);
 
+    const contextValue = useMemo(() => ({
+        items, addItem, addItems, removeItem, updateItem, hasItem, getItemStatus,
+    }), [items, addItem, addItems, removeItem, updateItem, hasItem, getItemStatus]);
+
     return (
-        <PantryContext.Provider value={{ items, addItem, addItems, removeItem, updateItem, hasItem, getItemStatus }}>
+        <PantryContext.Provider value={contextValue}>
             {children}
         </PantryContext.Provider>
     );

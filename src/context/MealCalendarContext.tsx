@@ -6,6 +6,7 @@ import React, {
     useState,
     useEffect,
     useCallback,
+    useMemo,
     ReactNode,
 } from "react";
 import type { MealType } from "../types";
@@ -154,16 +155,16 @@ export const MealCalendarProvider = ({ children }: { children: ReactNode }) => {
         [plannedMeals],
     );
 
+    const contextValue = useMemo(() => ({
+        plannedMeals,
+        addMealToDate,
+        removeMealFromDate,
+        getMealsForDate,
+        getMealsForWeek,
+    }), [plannedMeals, addMealToDate, removeMealFromDate, getMealsForDate, getMealsForWeek]);
+
     return (
-        <MealCalendarContext.Provider
-            value={{
-                plannedMeals,
-                addMealToDate,
-                removeMealFromDate,
-                getMealsForDate,
-                getMealsForWeek,
-            }}
-        >
+        <MealCalendarContext.Provider value={contextValue}>
             {children}
         </MealCalendarContext.Provider>
     );

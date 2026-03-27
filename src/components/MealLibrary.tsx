@@ -301,11 +301,8 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
 
     // Base meal pool: API meals (if available) or curated meals filtered by allergens/preference
     const combinedMeals = useMemo(() => {
-        // If API returned meals, use ONLY those — do not mix with curated
-        if (apiMeals.length > 0) return apiMeals;
-
-        // Fallback: curated meals filtered by allergens/preference
-        return MEALS.filter((m) => {
+        const pool = apiMeals.length > 0 ? apiMeals : MEALS;
+        return pool.filter((m) => {
             if (userAllergies.length > 0) {
                 const mealAllergens = m.allergens ?? [];
                 if (userAllergies.some((a) => mealAllergens.includes(a))) return false;

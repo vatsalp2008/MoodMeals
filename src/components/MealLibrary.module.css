@@ -1335,3 +1335,19 @@
     background: rgba(253, 250, 243, 0.06);
     border-color: rgba(122, 158, 135, 0.2);
 }
+
+@media (max-width: 640px) {
+    .selector {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 6px;
+        padding-bottom: 4px;
+    }
+
+    .btn {
+        flex-shrink: 0;
+        font-size: 0.72rem;
+        padding: 4px 10px;
+    }
+}

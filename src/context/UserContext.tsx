@@ -6,6 +6,7 @@ import React, {
     useState,
     useEffect,
     useCallback,
+    useMemo,
     ReactNode,
 } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
@@ -89,31 +90,34 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                     if (authUser && mounted) {
                         setUser(authUser);
                         const p = profileFromUser(authUser);
-                        setProfile(p);
-                        writeLocalProfile(p);
 
-                        // Try DB profile in background (non-blocking)
-                        (async () => {
-                            try {
-                                const { data } = await supabase
-                                    .from("user_profiles")
-                                    .select("name, allergies, preference")
-                                    .eq("id", authUser.id)
-                                    .single();
-                                if (data && mounted) {
-                                    const dbProfile: UserProfile = {
-                                        name: data.name ?? p.name,
-                                        email: p.email,
-                                        allergies: data.allergies ?? [],
-                                        preference: data.preference ?? "veg",
-                                    };
-                                    setProfile(dbProfile);
-                                    writeLocalProfile(dbProfile);
-                                }
-                            } catch {
-                                // Table might not exist yet — ignore
+                        // Try DB profile first before falling back to defaults
+                        try {
+                            const { data } = await supabase
+                                .from("user_profiles")
+                                .select("name, allergies, preference")
+                                .eq("id", authUser.id)
+                                .single();
+                            if (data && mounted) {
+                                const dbProfile: UserProfile = {
+                                    name: data.name ?? p.name,
+                                    email: p.email,
+                                    allergies: data.allergies ?? [],
+                                    preference: data.preference ?? "veg",
+                                };
+                                setProfile(dbProfile);
+                                writeLocalProfile(dbProfile);
+                            } else if (mounted) {
+                                setProfile(p);
+                                writeLocalProfile(p);
                             }
-                        })();
+                        } catch {
+                            // Table might not exist yet — fall back to defaults
+                            if (mounted) {
+                                setProfile(p);
+                                writeLocalProfile(p);
+                            }
+                        }
                     } else if (mounted) {
                         // No Supabase session — try localStorage
                         const local = readLocalProfile();
@@ -146,8 +150,34 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                     if (session?.user) {
                         setUser(session.user);
                         const p = profileFromUser(session.user);
-                        setProfile(p);
-                        writeLocalProfile(p);
+
+                        // Try DB profile first before falling back to defaults
+                        try {
+                            const { data } = await supabase
+                                .from("user_profiles")
+                                .select("name, allergies, preference")
+                                .eq("id", session.user.id)
+                                .single();
+                            if (data && mounted) {
+                                const dbProfile: UserProfile = {
+                                    name: data.name ?? p.name,
+                                    email: p.email,
+                                    allergies: data.allergies ?? [],
+                                    preference: data.preference ?? "veg",
+                                };
+                                setProfile(dbProfile);
+                                writeLocalProfile(dbProfile);
+                            } else if (mounted) {
+                                setProfile(p);
+                                writeLocalProfile(p);
+                            }
+                        } catch {
+                            // Table might not exist yet — fall back to defaults
+                            if (mounted) {
+                                setProfile(p);
+                                writeLocalProfile(p);
+                            }
+                        }
                         setLoading(false);
                     } else {
                         setUser(null);
@@ -218,14 +248,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         [supabase, user]
     );
 
+    const contextValue = useMemo(() => ({
+        user, profile, loading,
+        supabaseEnabled: isSupabaseConfigured,
+        signInWithGoogle, signInAsGuest, signOut, updateProfile,
+    }), [user, profile, loading, signInWithGoogle, signInAsGuest, signOut, updateProfile]);
+
     return (
-        <UserContext.Provider
-            value={{
-                user, profile, loading,
-                supabaseEnabled: isSupabaseConfigured,
-                signInWithGoogle, signInAsGuest, signOut, updateProfile,
-            }}
-        >
+        <UserContext.Provider value={contextValue}>
             {children}
         </UserContext.Provider>
     );

@@ -6,7 +6,7 @@ const CTASection = () => {
     return (
         <section className={styles.section}>
             <div className="container">
-                <h2 className={styles.title}>Built for Northeastern Seattle students.</h2>
+                <h2 className={styles.title}>Built for students who cook for themselves.</h2>
                 <p className={styles.text}>
                     Free. No tracking. Just science-backed meals matched to how you feel.
                 </p>

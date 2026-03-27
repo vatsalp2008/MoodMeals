@@ -6,6 +6,7 @@ import React, {
     useState,
     useEffect,
     useCallback,
+    useMemo,
     ReactNode,
 } from "react";
 import type {
@@ -220,20 +221,23 @@ export const StressCalendarProvider = ({ children }: { children: ReactNode }) =>
         setDismissedIds((prev) => [...prev, eventId]);
     }, []);
 
-    const interventions = mounted ? computeInterventions(events) : [];
+    const interventions = useMemo(
+        () => (mounted ? computeInterventions(events) : []),
+        [mounted, events],
+    );
+
+    const contextValue = useMemo(() => ({
+        events,
+        interventions,
+        addEvent,
+        removeEvent,
+        getUpcomingEvents,
+        dismissIntervention,
+        dismissedIds,
+    }), [events, interventions, addEvent, removeEvent, getUpcomingEvents, dismissIntervention, dismissedIds]);
 
     return (
-        <StressCalendarContext.Provider
-            value={{
-                events,
-                interventions,
-                addEvent,
-                removeEvent,
-                getUpcomingEvents,
-                dismissIntervention,
-                dismissedIds,
-            }}
-        >
+        <StressCalendarContext.Provider value={contextValue}>
             {children}
         </StressCalendarContext.Provider>
     );

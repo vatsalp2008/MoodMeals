@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from "react";
 
 export interface PendingReflection {
     mealId: string;
@@ -69,15 +69,15 @@ export const ReflectionProvider = ({ children }: { children: ReactNode }) => {
         return ready ?? null;
     }, [pendingReflections]);
 
+    const contextValue = useMemo(() => ({
+        pendingReflections,
+        addPendingReflection,
+        removePendingReflection,
+        getReadyReflection,
+    }), [pendingReflections, addPendingReflection, removePendingReflection, getReadyReflection]);
+
     return (
-        <ReflectionContext.Provider
-            value={{
-                pendingReflections,
-                addPendingReflection,
-                removePendingReflection,
-                getReadyReflection,
-            }}
-        >
+        <ReflectionContext.Provider value={contextValue}>
             {children}
         </ReflectionContext.Provider>
     );

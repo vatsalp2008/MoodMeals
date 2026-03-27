@@ -622,3 +622,43 @@
 .emptyLink:hover {
     background: var(--sage-dark);
 }
+
+@media (max-width: 640px) {
+    .headerTop {
+        flex-wrap: wrap;
+    }
+
+    .headerActions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .calendarLink,
+    .clearBtn {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .addToPantryBtn {
+        font-size: 0.9rem;
+        padding: 12px;
+    }
+
+    .mealCard {
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .servingsControl {
+        display: none;
+    }
+
+    .ingItem {
+        font-size: 0.82rem;
+        padding: 6px 10px;
+    }
+}

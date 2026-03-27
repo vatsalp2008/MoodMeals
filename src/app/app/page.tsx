@@ -145,6 +145,13 @@ export default function AppDashboard() {
             const now = Date.now();
             if (now - lastSavedTimeRef.current < 5000) return;
 
+            // Skip unclear/meaningless entries
+            const inputText = analysis.userInputText?.trim() ?? "";
+            if (inputText.length < 3) {
+                lastSavedKeyRef.current = fingerprint;
+                return;
+            }
+
             // Check if an entry with the same fingerprint already exists in journal
             const alreadyExists = entries.some(e =>
                 e.emotion === analysis.emotion &&

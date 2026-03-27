@@ -87,7 +87,7 @@ export default function GroceryPage() {
         mealServings, setServings,
         mealPrepDays, setMealPrepDays,
     } = useGrocery();
-    const { hasItem, addItems } = usePantry();
+    const { hasItem, addItems, addItem } = usePantry();
 
     const mealPrepEnabled = mealPrepDays > 1;
     const [budgetMode, setBudgetMode] = useState(false);
@@ -146,17 +146,35 @@ export default function GroceryPage() {
     }, [selectedMeals, mealServings, mealPrepEnabled, mealPrepDays, hasItem]);
 
     const handleAddAllToPantry = () => {
-        const allIngredients = selectedMeals.flatMap(meal =>
-            (meal.ingredients ?? []).map(ing => ({
+        const allIngredients = selectedMeals.flatMap(meal => {
+            const servings = mealServings[meal.id] ?? 1;
+            const prepMultiplier = mealPrepEnabled ? mealPrepDays : 1;
+            const multiplier = servings * prepMultiplier;
+            return (meal.ingredients ?? []).map(ing => ({
                 name: ing.name,
                 category: ing.category as "protein" | "grain" | "vegetable" | "dairy" | "spice" | "other",
-            }))
-        );
-        const unique = allIngredients.filter((ing, i, arr) =>
-            !hasItem(ing.name) && arr.findIndex(a => a.name.toLowerCase() === ing.name.toLowerCase()) === i
-        );
-        addItems(unique);
-        setSuccessCount(unique.length);
+                amount: multiplyAmount(ing.amount, multiplier),
+            }));
+        });
+
+        const seen = new Set<string>();
+        let count = 0;
+        for (const ing of allIngredients) {
+            const key = ing.name.toLowerCase();
+            if (seen.has(key) || hasItem(ing.name)) continue;
+            seen.add(key);
+
+            const parsed = parseLeadingNumber(ing.amount);
+            const quantity = parsed?.num;
+            // Extract unit from the rest string
+            const unitStr = parsed?.rest?.trim().split(/\s/)[0]?.toLowerCase() ?? "";
+            const VALID_UNITS = ["g","kg","ml","l","oz","lb","cups","tbsp","tsp","pieces","bunch"];
+            const unit = VALID_UNITS.includes(unitStr) ? unitStr : "";
+
+            addItem(ing.name, ing.category, quantity, unit as any);
+            count++;
+        }
+        setSuccessCount(count);
     };
 
     if (selectedMeals.length === 0) {

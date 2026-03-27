@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from "react";
 
 export interface JournalEntry {
     id: string;
@@ -65,10 +65,14 @@ export const JournalProvider = ({ children }: { children: ReactNode }) => {
         [entries]
     );
 
-    const clearEntries = () => setEntries([]);
+    const clearEntries = useCallback(() => setEntries([]), []);
+
+    const contextValue = useMemo(() => ({
+        entries, addEntry, updateEntry, getEntry, clearEntries,
+    }), [entries, addEntry, updateEntry, getEntry, clearEntries]);
 
     return (
-        <JournalContext.Provider value={{ entries, addEntry, updateEntry, getEntry, clearEntries }}>
+        <JournalContext.Provider value={contextValue}>
             {children}
         </JournalContext.Provider>
     );
