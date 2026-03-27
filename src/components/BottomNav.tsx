@@ -4,11 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useGroceryOptional } from "@/context/GroceryContext";
 import { useJournalOptional } from "@/context/JournalContext";
-import { HomeIcon, CarrotIcon, CartIcon, BookIcon } from "./Icons";
+import { HomeIcon, CarrotIcon, CartIcon, BookIcon, CalendarIcon } from "./Icons";
 import styles from "./BottomNav.module.css";
 
 const TABS = [
     { href: "/app", Icon: HomeIcon, label: "Dashboard" },
+    { href: "/app/calendar", Icon: CalendarIcon, label: "Calendar" },
     { href: "/app/pantry", Icon: CarrotIcon, label: "Pantry" },
     { href: "/app/grocery", Icon: CartIcon, label: "Grocery" },
     { href: "/app/journal", Icon: BookIcon, label: "Journal" },

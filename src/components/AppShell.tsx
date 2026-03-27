@@ -10,6 +10,7 @@ import { JournalProvider } from "@/context/JournalContext";
 import { UserProvider, useUser } from "@/context/UserContext";
 import { ReflectionProvider } from "@/context/ReflectionContext";
 import { StressCalendarProvider } from "@/context/StressCalendarContext";
+import { MealCalendarProvider } from "@/context/MealCalendarContext";
 import { AllergyType } from "@/types";
 import BottomNav from "./BottomNav";
 import AuthGate from "./AuthGate";
@@ -19,6 +20,7 @@ import styles from "./AppShell.module.css";
 
 const NAV_LINKS = [
     { href: "/app", label: "Dashboard" },
+    { href: "/app/calendar", label: "Calendar" },
     { href: "/app/pantry", label: "Pantry" },
     { href: "/app/grocery", label: "Grocery" },
     { href: "/app/journal", label: "Journal" },
@@ -262,9 +264,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                         <JournalProvider>
                             <ReflectionProvider>
                                 <StressCalendarProvider>
-                                    <AuthGatedContent>
-                                        {children}
-                                    </AuthGatedContent>
+                                    <MealCalendarProvider>
+                                        <AuthGatedContent>
+                                            {children}
+                                        </AuthGatedContent>
+                                    </MealCalendarProvider>
                                 </StressCalendarProvider>
                             </ReflectionProvider>
                         </JournalProvider>

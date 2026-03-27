@@ -4,11 +4,13 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import styles from "./MealLibrary.module.css";
 import { MEALS } from "../data/meals";
-import type { Meal, MealCuisine, MealDietFocus, MealType } from "../types";
+import type { Meal, MealCuisine, MealDietFocus, MealType, MealEffort } from "../types";
 import { useMood } from "../context/MoodContext";
 import { useGroceryOptional } from "../context/GroceryContext";
 import { usePantry } from "../context/PantryContext";
 import { useUser } from "../context/UserContext";
+import { BUDGET_ALTERNATIVES } from "../data/budgetTips";
+import GlossaryTerm from "./GlossaryTerm";
 
 
 type CookTimeFilter = "all" | "quick" | "medium" | "long";
@@ -48,6 +50,48 @@ const MEAL_TYPE_OPTIONS: { value: MealType | "all"; label: string }[] = [
 
 const isApiMeal = (meal: Meal) => meal.id.startsWith("spoon-");
 
+/** Derive effort level for a meal (uses explicit field or computes from cookTime/ingredients). */
+function getEffort(meal: Meal): MealEffort {
+    if (meal.effort) return meal.effort;
+    const ingCount = meal.ingredients?.length ?? 0;
+    if (meal.cookTime <= 15 || ingCount <= 4) return "minimal";
+    if (meal.cookTime <= 25) return "easy";
+    if (meal.cookTime <= 40) return "moderate";
+    return "involved";
+}
+
+/** Effort badge display config. */
+function effortBadge(effort: MealEffort): { emoji: string; label: string } {
+    switch (effort) {
+        case "minimal": return { emoji: "\u26A1", label: "Quick" };
+        case "easy": return { emoji: "\u26A1", label: "Quick" };
+        case "moderate": return { emoji: "\uD83D\uDD50", label: "Moderate" };
+        case "involved": return { emoji: "\uD83D\uDC68\u200D\uD83C\uDF73", label: "Involved" };
+    }
+}
+
+/** Match a meal's ingredients against BUDGET_ALTERNATIVES (case-insensitive partial match). */
+function getBudgetTips(meal: Meal): { ingredient: string; tip: string; store: string }[] {
+    if (!meal.ingredients || meal.ingredients.length === 0) return [];
+    const budgetKeys = Object.keys(BUDGET_ALTERNATIVES);
+    const matches: { ingredient: string; tip: string; store: string }[] = [];
+    for (const ing of meal.ingredients) {
+        const ingLower = ing.name.toLowerCase();
+        for (const key of budgetKeys) {
+            if (ingLower.includes(key) || key.includes(ingLower)) {
+                matches.push({
+                    ingredient: ing.name,
+                    tip: BUDGET_ALTERNATIVES[key].tip,
+                    store: BUDGET_ALTERNATIVES[key].store,
+                });
+                break; // one match per ingredient
+            }
+        }
+        if (matches.length >= 3) break;
+    }
+    return matches;
+}
+
 const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
     const { analysis, preference, sustainMode } = useMood();
     const grocery = useGroceryOptional();
@@ -62,6 +106,10 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
     // Dynamic API meals state
     const [apiMeals, setApiMeals] = useState<Meal[]>([]);
     const [apiLoading, setApiLoading] = useState(false);
+
+    // Low-friction recipe mode state
+    const [lowFrictionActive, setLowFrictionActive] = useState(false);
+    const lowFrictionDismissedRef = useRef(false);
 
     // Granular filter state
     const [cuisineFilter, setCuisineFilter] = useState<MealCuisine | "all">("all");
@@ -106,6 +154,31 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
         }
 
     }, [analysis?.suggestedFilters]);
+
+    // Auto-detect low-friction need from clinical state (burnout / cognitive-fatigue)
+    const prevClinicalRef = useRef<string | undefined>(undefined);
+    useEffect(() => {
+        const clinical = analysis?.clinicalState;
+        if (clinical === prevClinicalRef.current) return;
+        prevClinicalRef.current = clinical;
+
+        const isLowFriction = clinical === "burnout" || clinical === "cognitive-fatigue";
+        if (isLowFriction && !lowFrictionDismissedRef.current) {
+            setLowFrictionActive(true);
+            // Only auto-set cook time if suggestedFilters didn't already set it
+            if (!analysis?.suggestedFilters?.maxCookTime) {
+                setCookTimeFilter("quick");
+            }
+        } else {
+            setLowFrictionActive(false);
+        }
+    }, [analysis?.clinicalState, analysis?.suggestedFilters?.maxCookTime]);
+
+    const dismissLowFriction = () => {
+        lowFrictionDismissedRef.current = true;
+        setLowFrictionActive(false);
+        setCookTimeFilter("all");
+    };
 
     const targetMoods = useMemo((): string[] => {
         if (!analysis) return [];
@@ -205,11 +278,23 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
 
                 // API meals get a bonus since they're already nutrient-targeted
                 const apiBonus = isApiMeal(meal) ? 3 : 0;
-                const score = moodTagMatches * 2 + nutrientMatches + apiBonus;
+
+                // Low-friction boost: minimal/easy effort meals score higher when burnout detected
+                let effortBonus = 0;
+                if (lowFrictionActive) {
+                    const effort = getEffort(meal);
+                    if (effort === "minimal") effortBonus = 6;
+                    else if (effort === "easy") effortBonus = 4;
+                    // Also boost fewer-ingredient meals (normalize: 10-ingCount capped at 0)
+                    const ingCount = meal.ingredients?.length ?? 0;
+                    effortBonus += Math.max(0, 10 - ingCount) * 0.3;
+                }
+
+                const score = moodTagMatches * 2 + nutrientMatches + apiBonus + effortBonus;
                 return { ...meal, score, matched: moodTagMatches > 0 || nutrientMatches > 0 || isApiMeal(meal) };
             })
             .sort((a, b) => b.score - a.score);
-    }, [userAllergies, preference, apiMeals, cuisineFilter, dietFilter, cookTimeFilter, mealTypeFilter, analysis, targetMoods, targetedNutrients]);
+    }, [userAllergies, preference, apiMeals, cuisineFilter, dietFilter, cookTimeFilter, mealTypeFilter, analysis, targetMoods, targetedNutrients, lowFrictionActive]);
 
     const apiMealCount = sortedMeals.filter((m) => isApiMeal(m)).length;
 
@@ -243,84 +328,101 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
                     </>
                 )}
 
-                {/* Always-visible filter bar */}
-                <div className={styles.filterBar}>
-                    <div className={styles.filterBarHeader}>
-                        <span className={styles.filterBarTitle}>
-                            Filters
+                {/* Filter bar — hidden in gentle mode to reduce decisions */}
+                {!gentleMode && (
+                    <div className={styles.filterBar}>
+                        <div className={styles.filterBarHeader}>
+                            <span className={styles.filterBarTitle}>
+                                Filters
+                                {activeFilterCount > 0 && (
+                                    <span className={styles.filterCount}>{activeFilterCount}</span>
+                                )}
+                            </span>
                             {activeFilterCount > 0 && (
-                                <span className={styles.filterCount}>{activeFilterCount}</span>
+                                <button className={styles.clearFiltersLink} onClick={clearFilters}>
+                                    Clear all filters
+                                </button>
                             )}
+                        </div>
+
+                        <div className={styles.filterGrid}>
+                            <div className={styles.filterRow}>
+                                <span className={styles.filterRowLabel}>Cuisine</span>
+                                <div className={styles.chipRow}>
+                                    {CUISINE_OPTIONS.map((opt) => (
+                                        <button
+                                            key={opt.value}
+                                            className={`${styles.chip} ${cuisineFilter === opt.value ? styles.chipActive : ""}`}
+                                            onClick={() => setCuisineFilter(opt.value as MealCuisine | "all")}
+                                        >
+                                            {opt.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className={styles.filterRow}>
+                                <span className={styles.filterRowLabel}>Diet Focus</span>
+                                <div className={styles.chipRow}>
+                                    {DIET_OPTIONS.map((opt) => (
+                                        <button
+                                            key={opt.value}
+                                            className={`${styles.chip} ${dietFilter === opt.value ? styles.chipActive : ""}`}
+                                            onClick={() => setDietFilter(opt.value as MealDietFocus | "all")}
+                                        >
+                                            {opt.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className={styles.filterRow}>
+                                <span className={styles.filterRowLabel}>Cook Time</span>
+                                <div className={styles.chipRow}>
+                                    {COOK_TIME_OPTIONS.map((opt) => (
+                                        <button
+                                            key={opt.value}
+                                            className={`${styles.chip} ${cookTimeFilter === opt.value ? styles.chipActive : ""}`}
+                                            onClick={() => setCookTimeFilter(opt.value)}
+                                        >
+                                            {opt.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className={styles.filterRow}>
+                                <span className={styles.filterRowLabel}>Meal Type</span>
+                                <div className={styles.chipRow}>
+                                    {MEAL_TYPE_OPTIONS.map((opt) => (
+                                        <button
+                                            key={opt.value}
+                                            className={`${styles.chip} ${mealTypeFilter === opt.value ? styles.chipActive : ""}`}
+                                            onClick={() => setMealTypeFilter(opt.value as MealType | "all")}
+                                        >
+                                            {opt.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Low-friction mode banner */}
+                {lowFrictionActive && (
+                    <div className={styles.lowFrictionBanner}>
+                        <span className={styles.lowFrictionText}>
+                            🍳 Showing quick &amp; easy recipes — you deserve a break
                         </span>
-                        {activeFilterCount > 0 && (
-                            <button className={styles.clearFiltersLink} onClick={clearFilters}>
-                                Clear all filters
-                            </button>
-                        )}
+                        <button
+                            className={styles.lowFrictionDismiss}
+                            onClick={dismissLowFriction}
+                        >
+                            Show all recipes
+                        </button>
                     </div>
-
-                    <div className={styles.filterGrid}>
-                        <div className={styles.filterRow}>
-                            <span className={styles.filterRowLabel}>Cuisine</span>
-                            <div className={styles.chipRow}>
-                                {CUISINE_OPTIONS.map((opt) => (
-                                    <button
-                                        key={opt.value}
-                                        className={`${styles.chip} ${cuisineFilter === opt.value ? styles.chipActive : ""}`}
-                                        onClick={() => setCuisineFilter(opt.value as MealCuisine | "all")}
-                                    >
-                                        {opt.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className={styles.filterRow}>
-                            <span className={styles.filterRowLabel}>Diet Focus</span>
-                            <div className={styles.chipRow}>
-                                {DIET_OPTIONS.map((opt) => (
-                                    <button
-                                        key={opt.value}
-                                        className={`${styles.chip} ${dietFilter === opt.value ? styles.chipActive : ""}`}
-                                        onClick={() => setDietFilter(opt.value as MealDietFocus | "all")}
-                                    >
-                                        {opt.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className={styles.filterRow}>
-                            <span className={styles.filterRowLabel}>Cook Time</span>
-                            <div className={styles.chipRow}>
-                                {COOK_TIME_OPTIONS.map((opt) => (
-                                    <button
-                                        key={opt.value}
-                                        className={`${styles.chip} ${cookTimeFilter === opt.value ? styles.chipActive : ""}`}
-                                        onClick={() => setCookTimeFilter(opt.value)}
-                                    >
-                                        {opt.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className={styles.filterRow}>
-                            <span className={styles.filterRowLabel}>Meal Type</span>
-                            <div className={styles.chipRow}>
-                                {MEAL_TYPE_OPTIONS.map((opt) => (
-                                    <button
-                                        key={opt.value}
-                                        className={`${styles.chip} ${mealTypeFilter === opt.value ? styles.chipActive : ""}`}
-                                        onClick={() => setMealTypeFilter(opt.value as MealType | "all")}
-                                    >
-                                        {opt.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                )}
 
                 {userAllergies.length > 0 && (
                     <p className={styles.filterNote}>
@@ -440,6 +542,23 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
                                         );
                                     })()}
 
+                                    {/* Budget Tips — matched from BUDGET_ALTERNATIVES */}
+                                    {(() => {
+                                        const tips = getBudgetTips(meal);
+                                        if (tips.length === 0) return null;
+                                        return (
+                                            <div className={styles.budgetSection}>
+                                                <div className={styles.budgetTitle}>💰 Budget Tips</div>
+                                                {tips.map((t) => (
+                                                    <div key={t.ingredient} className={styles.budgetTip}>
+                                                        • {t.ingredient} — <span className={styles.budgetStore}>{t.store}</span>{" "}
+                                                        {t.tip.replace(/^[^—]*—\s*/, "")}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        );
+                                    })()}
+
                                     <div className={styles.cardMeta}>
                                         <span className={`${styles.metaTag} ${styles[`pref-${meal.preference}`]}`}>
                                             {meal.preference === "veg" ? "🥗 Veg" : meal.preference === "vegan" ? "🌱 Vegan" : "🍗 Non-Veg"}
@@ -447,6 +566,15 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
                                         <span className={styles.metaTag}>🕐 {meal.cookTime}m</span>
                                         <span className={styles.metaTag}>{meal.mealType}</span>
                                         <span className={styles.metaTag}>{meal.cuisine}</span>
+                                        {(() => {
+                                            const effort = getEffort(meal);
+                                            const badge = effortBadge(effort);
+                                            return (
+                                                <span className={`${styles.metaTag} ${styles.effortBadge} ${styles[`effort-${effort}`]}`}>
+                                                    {badge.emoji} {badge.label}
+                                                </span>
+                                            );
+                                        })()}
                                     </div>
                                     <div className={styles.cardFooter}>
                                         <div className={styles.moodTags}>
@@ -459,10 +587,12 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
                                                 </span>
                                             ))}
                                         </div>
-                                        <span className={styles.calories}>
-                                            {meal.calories} kcal
-                                            <span className={styles.caloriesPct}>{Math.round((meal.calories / 2000) * 100)}% DV</span>
-                                        </span>
+                                        <GlossaryTerm term="kcal">
+                                            <span className={styles.calories}>
+                                                {meal.calories} kcal
+                                                <span className={styles.caloriesPct}>{Math.round((meal.calories / 2000) * 100)}% DV</span>
+                                            </span>
+                                        </GlossaryTerm>
                                     </div>
 
                                     <button
@@ -525,12 +655,12 @@ const MealLibrary = ({ gentleMode = false }: { gentleMode?: boolean }) => {
                         className={styles.showAllBtn}
                         onClick={() => setShowAllOverride(true)}
                     >
-                        Show all {sortedMeals.length} meals
+                        See more options when you&apos;re ready
                     </button>
                 )}
 
-                {/* Source attribution */}
-                {apiMealCount > 0 && (
+                {/* Source attribution — hidden in gentle mode */}
+                {!gentleMode && apiMealCount > 0 && (
                     <p className={styles.sourceAttribution}>
                         Personalized recipes powered by Spoonacular · Nutrient science from nutritional psychiatry research
                     </p>

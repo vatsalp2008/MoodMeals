@@ -1,0 +1,108 @@
+.wrapper {
+    position: relative;
+    display: inline;
+    border-bottom: 1px dotted var(--text-light);
+    cursor: help;
+}
+
+.tooltip {
+    position: absolute;
+    left: 50%;
+    z-index: 100;
+    width: max-content;
+    max-width: 280px;
+    background: var(--warm-white, #fffef9);
+    border: 1px solid var(--beige-dark, #e8e0d0);
+    border-radius: 8px;
+    padding: 8px 12px;
+    box-shadow: 0 4px 12px rgba(45, 58, 46, 0.15);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    text-align: left;
+}
+
+/* Position above by default */
+.tooltipAbove {
+    bottom: calc(100% + 8px);
+    transform: translate(-50%, 4px);
+}
+
+.tooltipAbove.visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* Position below when near top of viewport */
+.tooltipBelow {
+    top: calc(100% + 8px);
+    transform: translate(-50%, -4px);
+}
+
+.tooltipBelow.visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* Arrow for above-positioned tooltip */
+.tooltipAbove::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--beige-dark, #e8e0d0);
+}
+
+.tooltipAbove::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--warm-white, #fffef9);
+}
+
+/* Arrow for below-positioned tooltip */
+.tooltipBelow::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: var(--beige-dark, #e8e0d0);
+}
+
+.tooltipBelow::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom-color: var(--warm-white, #fffef9);
+}
+
+.visible {
+    opacity: 1;
+}
+
+.termLabel {
+    display: block;
+    font-weight: 700;
+    color: var(--sage, #7a9e87);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+    line-height: 1.3;
+}
+
+.definition {
+    font-size: 0.78rem;
+    color: var(--text-dark, #2d3a2e);
+    line-height: 1.45;
+}

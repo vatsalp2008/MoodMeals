@@ -3,7 +3,9 @@
 import React, { useState } from "react";
 import { useStressCalendar } from "../context/StressCalendarContext";
 import type { CalendarEventType, StressLevel } from "../types";
+import GoogleCalendarConnect from "./GoogleCalendarConnect";
 import styles from "./EventInput.module.css";
+import gcStyles from "./GoogleCalendarConnect.module.css";
 
 const EVENT_TYPES: { value: CalendarEventType; label: string }[] = [
     { value: "deadline", label: "Deadline" },
@@ -84,6 +86,10 @@ const EventInput = () => {
             {/* Collapsible content */}
             <div className={`${styles.content} ${open ? styles.contentOpen : ""}`}>
                 <div className={styles.inner}>
+                    {/* Google Calendar sync */}
+                    <GoogleCalendarConnect />
+                    <div className={gcStyles.divider}>or add events manually</div>
+
                     {/* Form */}
                     <div className={styles.formCard}>
                         <div className={styles.formGrid}>

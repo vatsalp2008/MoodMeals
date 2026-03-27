@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./HowItWorks.module.css";
+import GlossaryTerm from "./GlossaryTerm";
 
 const HowItWorks = () => {
     return (
@@ -27,7 +28,7 @@ const HowItWorks = () => {
                         <div className={styles.icon}>🥗</div>
                         <h3 className={styles.cardTitle}>AI Nu-Sync</h3>
                         <p className={styles.cardDesc}>
-                            Our AI maps your emotions to nutritional profiles (e.g., magnesium for stress, omega-3 for focus).
+                            Our AI maps your emotions to nutritional profiles (e.g., <GlossaryTerm term="Magnesium">magnesium</GlossaryTerm> for stress, omega-3 for focus).
                         </p>
                     </div>
 

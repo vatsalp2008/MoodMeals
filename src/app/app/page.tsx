@@ -130,10 +130,12 @@ export default function AppDashboard() {
             {/* First-run onboarding */}
             <OnboardingBanner />
 
-            {/* Flow stepper */}
-            <div className={styles.stepperWrap}>
-                <FlowStepper step={currentStep} />
-            </div>
+            {/* Flow stepper — hidden in gentle mode to reduce cognitive pressure */}
+            {!isGentleMode && (
+                <div className={styles.stepperWrap}>
+                    <FlowStepper step={currentStep} />
+                </div>
+            )}
 
             {/* Sign-in prompt — shown after mood analysis if not logged in */}
             {analysis && !isLoggedIn && (
@@ -142,31 +144,59 @@ export default function AppDashboard() {
                 }} />
             )}
 
-            {/* Stress intervention banner */}
-            <StressInterventionBanner />
-            <EventInput />
+            {/* Stress intervention & deadlines — hidden in gentle mode */}
+            {!isGentleMode && (
+                <>
+                    <StressInterventionBanner />
+                    <EventInput />
+                </>
+            )}
+
+            {/* Calming banner — gentle mode only */}
+            {isGentleMode && (
+                <div className={styles.gentleCalm}>
+                    <span className={styles.gentleCalmIcon}>🌿</span>
+                    <p className={styles.gentleCalmText}>
+                        We&apos;re here for you. Here are a few simple, nourishing options.
+                    </p>
+                </div>
+            )}
 
             {/* Greeting banner */}
             <div className={styles.greeting} id="mood-input">
                 <p className={styles.greetingLine}>
-                    {getGreeting()}{firstName ? `, ${firstName}` : ""} 👋
+                    {isGentleMode
+                        ? <>{getGreeting()}{firstName ? `, ${firstName}` : ""}</>
+                        : <>{getGreeting()}{firstName ? `, ${firstName}` : ""} 👋</>
+                    }
                 </p>
                 <p className={styles.greetingSubtext}>
                     {isGentleMode
-                        ? <><span className={styles.breathingDot} />We&apos;ve picked a few calming meals for you. Take it easy.</>
+                        ? <><span className={styles.breathingDot} />Take it easy. We&apos;ve got a few calming meals ready for you.</>
                         : analysis
                         ? `You're feeling ${analysis.emotion}. Here are your personalized picks.`
                         : "Tell us your mood and we'll find the perfect meal for you."}
                 </p>
             </div>
 
+            {/* Breathe micro-interaction — gentle mode only */}
+            {isGentleMode && (
+                <div className={styles.breatheWrap}>
+                    <div className={styles.breatheCircle} aria-hidden="true" />
+                    <div className={styles.breatheText} aria-label="Breathing exercise: breathe in and out slowly">
+                        <span className={styles.breatheTextIn}>Breathe in...</span>
+                        <span className={styles.breatheTextOut}>Breathe out...</span>
+                    </div>
+                </div>
+            )}
+
             {/* Mood check-in */}
             <div className={styles.checkinWrap}>
                 <MoodInput />
             </div>
 
-            {/* Step 2 contextual CTA banner */}
-            {analysis && groceryCount === 0 && (
+            {/* Step 2 contextual CTA banner — hidden in gentle mode */}
+            {!isGentleMode && analysis && groceryCount === 0 && (
                 <div className={styles.ctaBanner}>
                     <span className={styles.ctaBannerStep}>Step 2</span>
                     <span>Pick your meals and add them to your grocery list</span>

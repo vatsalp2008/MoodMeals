@@ -790,3 +790,99 @@
     color: var(--sage-dark, #5f8a6e);
     font-weight: 600;
 }
+
+/* ── Low-friction mode banner ── */
+.lowFrictionBanner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: linear-gradient(135deg, #fef9e7 0%, #fdf2d5 100%);
+    border: 1.5px solid #f0d68a;
+    border-radius: var(--radius-md);
+    padding: 12px 20px;
+    margin-bottom: 16px;
+    animation: fadeIn 0.3s ease;
+}
+
+.lowFrictionText {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #7a6c2a;
+    line-height: 1.4;
+}
+
+.lowFrictionDismiss {
+    flex-shrink: 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--sage);
+    background: var(--surface);
+    border: 1.5px solid var(--sage);
+    border-radius: 999px;
+    padding: 6px 16px;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+
+.lowFrictionDismiss:hover {
+    background: var(--sage);
+    color: var(--on-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+    .lowFrictionBanner {
+        background: linear-gradient(135deg, rgba(254, 249, 231, 0.1) 0%, rgba(253, 242, 213, 0.1) 100%);
+        border-color: rgba(240, 214, 138, 0.3);
+    }
+
+    .lowFrictionText {
+        color: #e8d88a;
+    }
+}
+
+/* ── Effort badge styles ── */
+.effortBadge {
+    font-weight: 700;
+}
+
+.effort-minimal,
+.effort-easy {
+    color: #2d6a3f;
+    background: #e2f3e8;
+    border: 1px solid #b5dcc2;
+}
+
+.effort-moderate {
+    color: #7a6c2a;
+    background: #fef9e7;
+    border: 1px solid #f0d68a;
+}
+
+.effort-involved {
+    color: #8b4513;
+    background: #fde8d8;
+    border: 1px solid #f0c4a0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .effort-minimal,
+    .effort-easy {
+        background: rgba(45, 106, 63, 0.25);
+        color: #8dd9a0;
+        border-color: rgba(45, 106, 63, 0.4);
+    }
+
+    .effort-moderate {
+        background: rgba(122, 108, 42, 0.25);
+        color: #e8d88a;
+        border-color: rgba(240, 214, 138, 0.3);
+    }
+
+    .effort-involved {
+        background: rgba(139, 69, 19, 0.25);
+        color: #f0c4a0;
+        border-color: rgba(139, 69, 19, 0.4);
+    }
+}

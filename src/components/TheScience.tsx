@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./TheScience.module.css";
+import GlossaryTerm from "./GlossaryTerm";
 
 const TheScience = () => {
     return (
@@ -20,21 +21,21 @@ const TheScience = () => {
                             <div className={styles.icon}>🌡️</div>
                             <div>
                                 <h4 className={styles.itemTitle}>Stress Modulation</h4>
-                                <p className={styles.itemDesc}>Using magnesium-rich profiles to lower cortisol levels during high-stress periods.</p>
+                                <p className={styles.itemDesc}>Using <GlossaryTerm term="Magnesium">magnesium</GlossaryTerm>-rich profiles to lower cortisol levels during high-stress periods.</p>
                             </div>
                         </li>
                         <li className={styles.item}>
                             <div className={styles.icon}>⚡</div>
                             <div>
                                 <h4 className={styles.itemTitle}>Cognitive Boost</h4>
-                                <p className={styles.itemDesc}>Leveraging DHA and omega-3s for sustained mental focus and clarity.</p>
+                                <p className={styles.itemDesc}>Leveraging <GlossaryTerm term="DHA">DHA</GlossaryTerm> and omega-3s for sustained mental focus and clarity.</p>
                             </div>
                         </li>
                         <li className={styles.item}>
                             <div className={styles.icon}>💤</div>
                             <div>
                                 <h4 className={styles.itemTitle}>Mood Stabilization</h4>
-                                <p className={styles.itemDesc}>Tryptophan-based recommendations for better serotonin synthesis and sleep.</p>
+                                <p className={styles.itemDesc}><GlossaryTerm term="Tryptophan">Tryptophan</GlossaryTerm>-based recommendations for better <GlossaryTerm term="Serotonin">serotonin</GlossaryTerm> synthesis and sleep.</p>
                             </div>
                         </li>
                     </ul>

@@ -40,6 +40,7 @@ export const MEALS: Meal[] = [
             "tryptophan": 120,
         },
         allergens: ["sesame"],
+        effort: "easy",
     },
     {
         id: "v2",
@@ -80,6 +81,7 @@ export const MEALS: Meal[] = [
             "vitamin-C": 12,
         },
         allergens: ["dairy"],
+        effort: "moderate",
     },
     {
         id: "v3",
@@ -118,6 +120,7 @@ export const MEALS: Meal[] = [
             "vitamin-E": 1.5,
         },
         allergens: [],
+        effort: "moderate",
     },
     {
         id: "v4",
@@ -157,6 +160,7 @@ export const MEALS: Meal[] = [
             "vitamin-C": 18,
         },
         allergens: ["dairy"],
+        effort: "minimal",
     },
     // Non-Veg
     {
@@ -196,6 +200,7 @@ export const MEALS: Meal[] = [
             "folate": 60,
         },
         allergens: ["fish"],
+        effort: "easy",
     },
     {
         id: "nv2",
@@ -236,6 +241,7 @@ export const MEALS: Meal[] = [
             "folate": 30,
         },
         allergens: ["soy", "sesame"],
+        effort: "moderate",
     },
     {
         id: "nv3",
@@ -276,6 +282,7 @@ export const MEALS: Meal[] = [
             "vitamin-B12": 3,
         },
         allergens: [],
+        effort: "involved",
     },
     {
         id: "nv4",
@@ -316,6 +323,7 @@ export const MEALS: Meal[] = [
             "vitamin-B6": 0.3,
         },
         allergens: ["shellfish", "soy"],
+        effort: "easy",
     },
     // Vegan
     {
@@ -357,6 +365,7 @@ export const MEALS: Meal[] = [
             "vitamin-E": 2.5,
         },
         allergens: [],
+        effort: "easy",
     },
     {
         id: "vg2",
@@ -397,6 +406,7 @@ export const MEALS: Meal[] = [
             "tryptophan": 150,
         },
         allergens: [],
+        effort: "moderate",
     },
     {
         id: "vg3",
@@ -436,6 +446,7 @@ export const MEALS: Meal[] = [
             "polyphenols": 40,
         },
         allergens: ["gluten"],
+        effort: "minimal",
     },
     {
         id: "vg4",
@@ -474,5 +485,6 @@ export const MEALS: Meal[] = [
             "polyphenols": 25,
         },
         allergens: [],
+        effort: "minimal",
     },
 ];

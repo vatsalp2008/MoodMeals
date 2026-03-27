@@ -1,0 +1,224 @@
+/* ---- Container ---- */
+.wrapper {
+    margin-bottom: 16px;
+}
+
+/* ---- Connect button (disconnected state) ---- */
+.connectBtn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 20px;
+    border: 1.5px solid var(--beige-dark);
+    border-radius: var(--radius-md);
+    background: white;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    transition: all var(--transition);
+}
+
+.connectBtn:hover {
+    border-color: #4285f4;
+    box-shadow: 0 1px 4px rgba(66, 133, 244, 0.15);
+}
+
+.connectBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.googleIcon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+/* ---- Connected bar ---- */
+.connectedBar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border: 1.5px solid var(--sage-light, #b6d4be);
+    border-radius: var(--radius-md);
+    background: var(--sage-pale, #eef5f0);
+}
+
+.connectedBadge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--sage, #7a9e87);
+    flex: 1;
+    min-width: 0;
+}
+
+.checkMark {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.syncBtn,
+.disconnectBtn {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition);
+}
+
+.syncBtn {
+    background: var(--sage, #7a9e87);
+    color: white;
+}
+
+.syncBtn:hover {
+    background: #5e8a6e;
+    transform: translateY(-1px);
+}
+
+.syncBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.disconnectBtn {
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--beige-dark);
+}
+
+.disconnectBtn:hover {
+    background: rgba(0, 0, 0, 0.04);
+    color: #d9534f;
+    border-color: #d9534f;
+}
+
+/* ---- Error state ---- */
+.errorBar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border: 1.5px solid #f5c6cb;
+    border-radius: var(--radius-md);
+    background: #fef0f0;
+}
+
+.errorText {
+    flex: 1;
+    font-size: 0.84rem;
+    color: #b94a48;
+}
+
+.retryBtn {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    background: var(--text-dark);
+    color: white;
+    transition: all var(--transition);
+}
+
+.retryBtn:hover {
+    background: #000;
+    transform: translateY(-1px);
+}
+
+/* ---- Divider ---- */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0 4px;
+    font-size: 0.78rem;
+    color: var(--text-light);
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--beige-dark);
+}
+
+/* ---- Sync status ---- */
+.syncStatus {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: 6px;
+    padding-left: 4px;
+}
+
+/* ---- Dark mode ---- */
+@media (prefers-color-scheme: dark) {
+    .connectBtn {
+        background: #1a1a18;
+        border-color: #3a3828;
+        color: #e8e0d0;
+    }
+
+    .connectBtn:hover {
+        border-color: #4285f4;
+        box-shadow: 0 1px 4px rgba(66, 133, 244, 0.25);
+    }
+
+    .connectedBar {
+        background: rgba(122, 158, 135, 0.1);
+        border-color: rgba(122, 158, 135, 0.3);
+    }
+
+    .connectedBadge {
+        color: #a8c4b0;
+    }
+
+    .disconnectBtn {
+        border-color: #3a3828;
+        color: #8a8070;
+    }
+
+    .disconnectBtn:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: #e06050;
+        border-color: #e06050;
+    }
+
+    .errorBar {
+        background: rgba(185, 74, 72, 0.1);
+        border-color: rgba(185, 74, 72, 0.3);
+    }
+
+    .errorText {
+        color: #e06050;
+    }
+
+    .divider {
+        color: #8a8070;
+    }
+
+    .divider::before,
+    .divider::after {
+        background: #3a3828;
+    }
+
+    .syncStatus {
+        color: #8a8070;
+    }
+}

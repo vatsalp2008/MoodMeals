@@ -17,6 +17,8 @@ export interface Ingredient {
     category: "protein" | "grain" | "vegetable" | "dairy" | "spice" | "other";
 }
 
+export type MealEffort = "minimal" | "easy" | "moderate" | "involved";
+
 export interface Meal {
     id: string;
     name: string;
@@ -36,6 +38,7 @@ export interface Meal {
     allergens?: AllergyType[];
     sourceUrl?: string;
     dataSource?: "curated" | "spoonacular" | "hybrid";
+    effort?: MealEffort;
 }
 
 export type ClinicalMoodState = "high-stress" | "cognitive-fatigue" | "depressive" | "poor-focus" | "burnout";
