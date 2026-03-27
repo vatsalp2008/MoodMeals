@@ -137,12 +137,13 @@
     cursor: pointer;
     transition: all var(--transition);
     white-space: nowrap;
-    border: none;
+    border: 1.5px solid var(--text-dark);
     flex-shrink: 0;
 }
 
 .submitBtn:hover {
     background: var(--foreground);
+    border-color: var(--foreground);
     transform: translateY(-1px);
 }
 

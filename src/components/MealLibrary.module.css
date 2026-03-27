@@ -123,6 +123,12 @@
     box-shadow: var(--shadow-md);
 }
 
+@media (max-width: 768px) {
+    .card:hover {
+        transform: none;
+    }
+}
+
 .recommended {
     border-color: var(--sage);
     box-shadow: 0 0 0 3px rgba(122, 158, 135, 0.15);
@@ -153,6 +159,23 @@
 
 .cardBody {
     padding: 24px;
+}
+
+@media (max-width: 768px) {
+    .imgWrap {
+        height: 160px;
+    }
+
+    .cardBody {
+        padding: 16px;
+    }
+
+    .cardDesc {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
 }
 
 .cardTitle {
