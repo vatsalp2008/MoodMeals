@@ -59,7 +59,8 @@
       "Bash(python3:*)",
       "Bash(npx tsc:*)",
       "Bash(git stash:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }

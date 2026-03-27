@@ -3,21 +3,24 @@ import { NextResponse, type NextRequest } from "next/server";
 
 /**
  * Refreshes the Supabase auth session on every request.
- * This is REQUIRED because:
- * 1. Server Components can't write cookies
- * 2. Auth tokens expire and need to be refreshed via middleware
- * 3. The refreshed tokens must be forwarded to both the server and browser
+ *
+ * IMPORTANT: Only set cookies on the RESPONSE, not on the request.
+ * Setting on both causes a known Next.js bug where Set-Cookie headers
+ * conflict and auth cookies fail to propagate.
+ * See: https://github.com/supabase/ssr/issues/36
  */
 export async function updateSession(request: NextRequest) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-    // If Supabase is not configured, pass through
     if (!supabaseUrl || !supabaseAnonKey) {
         return NextResponse.next({ request });
     }
 
-    let supabaseResponse = NextResponse.next({ request });
+    // Create a single response object — cookies are set ONLY on this
+    let response = NextResponse.next({
+        request: { headers: request.headers },
+    });
 
     const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
         cookies: {
@@ -25,23 +28,17 @@ export async function updateSession(request: NextRequest) {
                 return request.cookies.getAll();
             },
             setAll(cookiesToSet) {
-                // First, set cookies on the request (for downstream server components)
-                cookiesToSet.forEach(({ name, value }) =>
-                    request.cookies.set(name, value)
-                );
-                // Then create a new response that includes the updated request
-                supabaseResponse = NextResponse.next({ request });
-                // Finally, set cookies on the response (for the browser)
+                // ONLY set on the response — NOT on request.cookies
+                // This avoids the Next.js dual Set-Cookie header bug
                 cookiesToSet.forEach(({ name, value, options }) =>
-                    supabaseResponse.cookies.set(name, value, options)
+                    response.cookies.set(name, value, options)
                 );
             },
         },
     });
 
-    // IMPORTANT: Do NOT use getSession() here — it reads from storage
-    // and can be spoofed. getUser() validates against the Supabase server.
+    // getUser() triggers token refresh if needed, writing new cookies via setAll
     await supabase.auth.getUser();
 
-    return supabaseResponse;
+    return response;
 }

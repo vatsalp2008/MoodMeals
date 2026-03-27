@@ -1,15 +1,18 @@
+import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import TheScience from "@/components/TheScience";
 import LandingMoodDemo from "@/components/LandingMoodDemo";
 import CTASection from "@/components/CTASection";
+import AuthCodeRedirect from "@/components/AuthCodeRedirect";
 import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function Home() {
     return (
         <main>
+            <Suspense fallback={null}><AuthCodeRedirect /></Suspense>
             <Navbar />
             <Hero />
             <HowItWorks />

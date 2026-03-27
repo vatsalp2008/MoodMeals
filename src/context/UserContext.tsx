@@ -99,41 +99,38 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             try {
                 if (supabase) {
                     // getUser() validates session against Supabase server.
-                    // Middleware refreshes the cookies on every request,
-                    // so by the time this runs the cookies are valid.
-                    const { data: { user: authUser } } = await supabase.auth.getUser();
+                    // Add a timeout so we don't hang forever if Supabase is slow.
+                    const getUserPromise = supabase.auth.getUser();
+                    const timeoutPromise = new Promise<{ data: { user: null } }>((resolve) =>
+                        setTimeout(() => resolve({ data: { user: null } }), 5000)
+                    );
+                    const { data: { user: authUser } } = await Promise.race([getUserPromise, timeoutPromise]);
 
                     if (authUser && mounted) {
                         setUser(authUser);
                         const p = profileFromUser(authUser);
+                        // Set profile immediately — don't block on DB query
+                        setProfile(p);
+                        writeLocalProfile(p);
 
-                        // Try DB profile first before falling back to defaults
-                        try {
-                            const { data } = await supabase
-                                .from("user_profiles")
-                                .select("name, allergies, preference")
-                                .eq("id", authUser.id)
-                                .single();
-                            if (data && mounted) {
-                                const dbProfile: UserProfile = {
-                                    name: data.name ?? p.name,
-                                    email: p.email,
-                                    allergies: data.allergies ?? [],
-                                    preference: data.preference ?? "veg",
-                                };
-                                setProfile(dbProfile);
-                                writeLocalProfile(dbProfile);
-                            } else if (mounted) {
-                                setProfile(p);
-                                writeLocalProfile(p);
-                            }
-                        } catch {
-                            // Table might not exist yet — fall back to defaults
-                            if (mounted) {
-                                setProfile(p);
-                                writeLocalProfile(p);
-                            }
-                        }
+                        // Enrich from DB in background (non-blocking)
+                        supabase
+                            .from("user_profiles")
+                            .select("name, allergies, preference")
+                            .eq("id", authUser.id)
+                            .single()
+                            .then(({ data }) => {
+                                if (data && mounted) {
+                                    const dbProfile: UserProfile = {
+                                        name: data.name ?? p.name,
+                                        email: p.email,
+                                        allergies: data.allergies ?? [],
+                                        preference: data.preference ?? "veg",
+                                    };
+                                    setProfile(dbProfile);
+                                    writeLocalProfile(dbProfile);
+                                }
+                            });
                     } else if (mounted) {
                         // No Supabase session — try localStorage
                         const local = readLocalProfile();
@@ -166,35 +163,29 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                     if (session?.user) {
                         setUser(session.user);
                         const p = profileFromUser(session.user);
-
-                        // Try DB profile first before falling back to defaults
-                        try {
-                            const { data } = await supabase
-                                .from("user_profiles")
-                                .select("name, allergies, preference")
-                                .eq("id", session.user.id)
-                                .single();
-                            if (data && mounted) {
-                                const dbProfile: UserProfile = {
-                                    name: data.name ?? p.name,
-                                    email: p.email,
-                                    allergies: data.allergies ?? [],
-                                    preference: data.preference ?? "veg",
-                                };
-                                setProfile(dbProfile);
-                                writeLocalProfile(dbProfile);
-                            } else if (mounted) {
-                                setProfile(p);
-                                writeLocalProfile(p);
-                            }
-                        } catch {
-                            // Table might not exist yet — fall back to defaults
-                            if (mounted) {
-                                setProfile(p);
-                                writeLocalProfile(p);
-                            }
-                        }
+                        // Set profile immediately so loading stops — don't wait for DB
+                        setProfile(p);
+                        writeLocalProfile(p);
                         setLoading(false);
+
+                        // Then try DB in background (non-blocking)
+                        supabase
+                            .from("user_profiles")
+                            .select("name, allergies, preference")
+                            .eq("id", session.user.id)
+                            .single()
+                            .then(({ data }) => {
+                                if (data && mounted) {
+                                    const dbProfile: UserProfile = {
+                                        name: data.name ?? p.name,
+                                        email: p.email,
+                                        allergies: data.allergies ?? [],
+                                        preference: data.preference ?? "veg",
+                                    };
+                                    setProfile(dbProfile);
+                                    writeLocalProfile(dbProfile);
+                                }
+                            });
                     } else {
                         setUser(null);
                         setProfile(null);

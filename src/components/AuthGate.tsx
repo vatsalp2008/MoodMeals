@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useUser, readSavedPrefs } from "@/context/UserContext";
 
@@ -19,7 +19,26 @@ const AuthGate = ({ children }: { children: React.ReactNode }) => {
     const [guestAllergies, setGuestAllergies] = useState(savedPrefs?.allergies?.join(", ") ?? "");
     const [guestPreference, setGuestPreference] = useState<"veg" | "non-veg" | "vegan">(savedPrefs?.preference ?? "veg");
 
-    if (loading) {
+    // Safety: if loading hangs for more than 3 seconds, force past it
+    const [loadingTimedOut, setLoadingTimedOut] = useState(false);
+    useEffect(() => {
+        if (loading) {
+            const timer = setTimeout(() => setLoadingTimedOut(true), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [loading]);
+
+    // Check localStorage directly as a fast bypass — if we have a profile there,
+    // show the app immediately without waiting for Supabase
+    const hasLocalProfile = typeof window !== "undefined" && !!localStorage.getItem("moodmeals_user_profile");
+
+    // Show children if: profile is set OR we have a local profile (fast path)
+    if (profile || hasLocalProfile) {
+        return <>{children}</>;
+    }
+
+    // Only show loading briefly, with a timeout escape
+    if (loading && !loadingTimedOut) {
         return (
             <div style={overlayStyle}>
                 <div style={cardStyle}>
@@ -27,10 +46,6 @@ const AuthGate = ({ children }: { children: React.ReactNode }) => {
                 </div>
             </div>
         );
-    }
-
-    if (profile) {
-        return <>{children}</>;
     }
 
     const handleGuestSubmit = (e: React.FormEvent) => {

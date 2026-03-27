@@ -2,6 +2,10 @@ import { updateSession } from "@/lib/supabase/middleware";
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
+    // Skip auth callback — it needs to exchange the code BEFORE any session refresh
+    if (request.nextUrl.pathname.startsWith("/auth/callback")) {
+        return;
+    }
     return await updateSession(request);
 }
 

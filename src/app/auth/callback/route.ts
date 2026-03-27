@@ -16,15 +16,19 @@ export async function GET(request: Request) {
 
     const cookieStore = await cookies();
 
+    // Capture cookies that Supabase sets during code exchange.
+    // We CANNOT rely on cookieStore.set() because NextResponse.redirect()
+    // creates a NEW response that discards those headers.
+    const cookiesToForward: { name: string; value: string; options: Record<string, unknown> }[] = [];
+
     const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
         cookies: {
             getAll() {
                 return cookieStore.getAll();
             },
-            setAll(cookiesToSet) {
-                cookiesToSet.forEach(({ name, value, options }) => {
-                    cookieStore.set(name, value, options);
-                });
+            setAll(cookies) {
+                // Capture — don't set on cookieStore
+                cookies.forEach((cookie) => cookiesToForward.push(cookie));
             },
         },
     });
@@ -36,5 +40,11 @@ export async function GET(request: Request) {
         return NextResponse.redirect(`${origin}/?error=auth`);
     }
 
-    return NextResponse.redirect(`${origin}${next}`);
+    // Create redirect response and explicitly set ALL auth cookies on it
+    const response = NextResponse.redirect(`${origin}${next}`);
+    for (const { name, value, options } of cookiesToForward) {
+        response.cookies.set(name, value, options as Record<string, string>);
+    }
+
+    return response;
 }
