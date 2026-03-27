@@ -6,12 +6,11 @@ const CTASection = () => {
     return (
         <section className={styles.section}>
             <div className="container">
-                <h2 className={styles.title}>Ready to sync?</h2>
+                <h2 className={styles.title}>Built for Northeastern Seattle students.</h2>
                 <p className={styles.text}>
-                    Join 50,000+ people who have transformed their mental
-                    and physical energy with MoodMeals.
+                    Free. No tracking. Just science-backed meals matched to how you feel.
                 </p>
-                <Link href="#choice" className={styles.btn}>
+                <Link href="/app" className={styles.btn}>
                     Get Started for Free
                 </Link>
             </div>

@@ -1,0 +1,50 @@
+.section {
+    padding: 80px 0;
+    background: var(--warm-white);
+}
+
+.card {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 56px 48px;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+}
+
+.quote {
+    display: block;
+    font-family: var(--font-lora), serif;
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--sage-light);
+    margin-bottom: -12px;
+}
+
+.text {
+    font-family: var(--font-lora), serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.75;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+}
+
+.author {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--sage);
+}
+
+@media (max-width: 600px) {
+    .card {
+        padding: 40px 24px;
+    }
+
+    .text {
+        font-size: 1.05rem;
+    }
+}

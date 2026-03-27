@@ -1,29 +1,125 @@
 :root {
-  --sage: #7a9e87;
+  /* ── Color Tokens ── */
+  --sage: #5f8a6e;
+  --sage-dark: #4a7259;
   --sage-light: #a8c4b0;
   --sage-pale: #d6e8db;
   --beige: #f5f0e8;
   --beige-dark: #e8e0d0;
+  --beige-pale: #f9f6f0;
   --cream: #fdfaf4;
   --warm-white: #fffef9;
-  --coral: #e8836a;
+  --coral: #d6725a;
+  --coral-dark: #b85a42;
   --coral-light: #f4a892;
   --lavender: #b8a9d4;
+  --lavender-pale: #e8e0f0;
   --sky: #a5c8e4;
   --text-dark: #2d3a2e;
   --text-mid: #4a5e4c;
-  --text-light: #7a8c7b;
+  --text-light: #647866;
+  --text-secondary: #647866;
+
+  /* ── Surfaces ── */
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --background: var(--cream);
+  --foreground: var(--text-dark);
+
+  /* ── Typography Scale ── */
+  --text-xs: 0.75rem;    /* 12px — minimum */
+  --text-sm: 0.8125rem;  /* 13px */
+  --text-base: 0.875rem; /* 14px */
+  --text-md: 0.9375rem;  /* 15px */
+  --text-lg: 1rem;       /* 16px */
+  --text-xl: 1.125rem;   /* 18px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 2rem;      /* 32px */
+  --text-4xl: 2.5rem;    /* 40px */
+
+  /* ── Spacing / Radius ── */
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 28px;
   --radius-xl: 48px;
-  --shadow-sm: 0 2px 12px rgba(45, 58, 46, .07);
-  --shadow-md: 0 8px 32px rgba(45, 58, 46, .11);
-  --shadow-lg: 0 20px 60px rgba(45, 58, 46, .14);
-  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
+  /* ── Semantic Surfaces ── */
+  --on-primary: #ffffff;
+  --surface-glass: rgba(253, 250, 244, 0.92);
+  --surface-glass-heavy: rgba(253, 250, 244, 0.97);
+  --border: rgba(45, 58, 46, 0.1);
+  --border-strong: rgba(45, 58, 46, 0.18);
+
+  /* ── Status Colors ── */
+  --error: #d9534f;
+  --error-bg: #fde8e4;
+  --warning-bg: #fef3cd;
+  --warning-text: #8a6a00;
+
+  /* ── Shadows ── */
+  --shadow-color: 45, 58, 46;
+  --shadow-sm: 0 2px 12px rgba(var(--shadow-color), .07);
+  --shadow-md: 0 8px 32px rgba(var(--shadow-color), .11);
+  --shadow-lg: 0 20px 60px rgba(var(--shadow-color), .14);
+
+  /* ── Motion ── */
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Dark Theme ── */
+[data-theme="dark"] {
+  /* Sage palette — brighter accents for dark backgrounds */
+  --sage: #8db89a;
+  --sage-dark: #6a9e78;
+  --sage-light: #3a5240;
+  --sage-pale: #1e2d22;
+
+  /* Neutral surfaces */
+  --beige: #2a2e2a;
+  --beige-dark: #3a3e3a;
+  --beige-pale: #1e211c;
+  --cream: #141916;
+  --warm-white: #1c201c;
+
+  /* Accent colors — adjusted for dark bg visibility */
+  --coral: #e8836a;
+  --coral-dark: #d6725a;
+  --coral-light: #9e5a42;
+  --lavender: #c4b6e0;
+  --lavender-pale: #3a3348;
+  --sky: #7faed0;
+
+  /* Text — WCAG AA contrast on dark surfaces */
+  --text-dark: #e8ede9;
+  --text-mid: #a8b5ab;
+  --text-light: #6b7c6e;
+  --text-secondary: #6b7c6e;
+
+  /* Depth layers — distinct card/modal separation */
+  --surface: #1c201c;
+  --surface-elevated: #242824;
   --background: var(--cream);
   --foreground: var(--text-dark);
+
+  --on-primary: #ffffff;
+  --surface-glass: rgba(20, 25, 22, 0.88);
+  --surface-glass-heavy: rgba(20, 25, 22, 0.95);
+
+  /* Borders — subtle sage-tinted edges */
+  --border: rgba(168, 196, 176, 0.1);
+  --border-strong: rgba(168, 196, 176, 0.2);
+
+  /* Status colors — bright enough for dark bg readability */
+  --error: #ef6b6b;
+  --error-bg: rgba(239, 107, 107, 0.12);
+  --warning-bg: rgba(255, 193, 7, 0.12);
+  --warning-text: #ffd54f;
+
+  /* Shadows — stronger black shadows for depth */
+  --shadow-color: 0, 0, 0;
+  --shadow-sm: 0 2px 12px rgba(var(--shadow-color), .22);
+  --shadow-md: 0 8px 32px rgba(var(--shadow-color), .32);
+  --shadow-lg: 0 20px 60px rgba(var(--shadow-color), .42);
 }
 
 *,

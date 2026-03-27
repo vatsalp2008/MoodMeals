@@ -1,17 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Hero.module.css";
 
-const Hero = () => {
-    const [showPreferences, setShowPreferences] = useState(false);
+const MOOD_WORDS = ["stressed", "tired", "anxious", "happy", "focused", "calm", "energetic"] as const;
 
-    const handleStart = () => {
-        setShowPreferences(true);
-        // Scroll to the recipes section or just show choices here
-    };
+const FEATURE_PILLS = [
+    { emoji: "\u{1F9E0}", label: "AI Mood Analysis" },
+    { emoji: "\u{1F4C5}", label: "Calendar Sync" },
+    { emoji: "\u{1F4B0}", label: "Seattle Budget Tips" },
+    { emoji: "\u{1F52C}", label: "Nutritional Science" },
+];
+
+const Hero = () => {
+    const [wordIdx, setWordIdx] = useState(0);
+    const [fading, setFading] = useState(false);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setFading(true);
+            setTimeout(() => {
+                setWordIdx(i => (i + 1) % MOOD_WORDS.length);
+                setFading(false);
+            }, 320);
+        }, 2600);
+        return () => clearInterval(timer);
+    }, []);
 
     return (
         <section className={styles.hero}>
@@ -19,50 +35,57 @@ const Hero = () => {
                 <div className={styles.inner}>
                     <div className={styles.content}>
                         <div className={styles.badge}>
-                            <span className={styles.dot}></span>
-                            NEW: MOOD-SYNC™ 2.0 IS HERE
+                            <span className={styles.dot} />
+                            POWERED BY NUTRITIONAL PSYCHIATRY
                         </div>
+
                         <h1 className={styles.headline}>
-                            Eat for how <br />
-                            you <em>feel.</em>
+                            Your mood drives <br />
+                            your meals. <br />
+                            Your meals drive <br />
+                            <em>your grades.</em>
                         </h1>
+
+                        <div className={styles.moodWordWrap}>
+                            <span className={styles.moodWordLabel}>When you&apos;re feeling</span>
+                            <span
+                                className={`${styles.moodWord} ${fading ? styles.moodWordFade : ""}`}
+                            >
+                                {MOOD_WORDS[wordIdx]}
+                            </span>
+                            <span className={styles.moodWordLabel}>— we know what to eat.</span>
+                        </div>
+
                         <p className={styles.copy}>
-                            MoodMeals is an emotion-aware meal planning app that maps
-                            your state of mind to curated nutritional profiles.
+                            AI-powered mood analysis meets nutritional psychiatry. MoodMeals
+                            predicts stress from your calendar, matches meals to your emotional
+                            state, and keeps it all on a Seattle student budget.
                         </p>
 
-                        {!showPreferences ? (
-                            <div className={styles.actions}>
-                                <button onClick={handleStart} className={styles.btnPrimary}>
-                                    Get Started Free
-                                </button>
-                                <Link href="#how" className={styles.btnSecondary}>
-                                    How it Works
-                                </Link>
-                            </div>
-                        ) : (
-                            <div style={{ animation: "fadeIn 0.5s ease-out" }}>
-                                <p style={{ fontWeight: 700, marginBottom: "16px", color: "var(--text-dark)" }}>Choose your dietary path:</p>
-                                <div className={styles.actions}>
-                                    <Link href="#recipes" className={styles.btnPrimary} style={{ background: "var(--sage-light)" }}>
-                                        🥗 Veg
-                                    </Link>
-                                    <Link href="#recipes" className={styles.btnPrimary} style={{ background: "var(--coral-light)" }}>
-                                        🍗 Non-Veg
-                                    </Link>
-                                    <Link href="#recipes" className={styles.btnPrimary} style={{ background: "var(--lavender)" }}>
-                                        🌱 Vegan
-                                    </Link>
-                                </div>
-                            </div>
-                        )}
+                        <div className={styles.featurePills}>
+                            {FEATURE_PILLS.map(pill => (
+                                <span key={pill.label} className={styles.featurePill}>
+                                    <span className={styles.featurePillEmoji}>{pill.emoji}</span>
+                                    {pill.label}
+                                </span>
+                            ))}
+                        </div>
+
+                        <div className={styles.actions}>
+                            <Link href="#try" className={styles.btnPrimary}>
+                                Try It Now
+                            </Link>
+                            <Link href="/app" className={styles.btnSecondary}>
+                                Open App →
+                            </Link>
+                        </div>
                     </div>
 
                     <div className={styles.visual}>
                         <div className={styles.imgWrap}>
                             <Image
                                 src="/hero.png"
-                                alt="Healthy Salmon Grain Bowl"
+                                alt="Healthy grain bowl"
                                 width={480}
                                 height={600}
                                 priority
@@ -70,10 +93,13 @@ const Hero = () => {
                         </div>
 
                         <div className={`${styles.chip} ${styles.chipOne}`}>
-                            <span>😌</span> Relaxed
+                            <span>{"\u{1F60C}"}</span> Relaxed
                         </div>
                         <div className={`${styles.chip} ${styles.chipTwo}`}>
-                            <span>🚀</span> Focused
+                            <span>{"\u{1F680}"}</span> Focused
+                        </div>
+                        <div className={`${styles.chip} ${styles.chipThree}`}>
+                            <span>{"\u26A1"}</span> Energized
                         </div>
                     </div>
                 </div>

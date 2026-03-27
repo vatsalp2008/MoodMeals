@@ -1,0 +1,196 @@
+.page {
+    min-height: calc(100vh - 64px);
+    padding: 24px 16px 120px;
+    max-width: 560px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pageTitle {
+    font-family: var(--font-lora), serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* ── Card ── */
+.card {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--beige-dark);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cardLabel {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-light);
+}
+
+/* ── User Info ── */
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.avatarCircle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--on-primary);
+    flex-shrink: 0;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 2px 8px rgba(var(--shadow-color), 0.12);
+    overflow: hidden;
+}
+
+.avatarImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.userMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.userName {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.userEmail {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ── Preference Chips ── */
+.chipGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chip {
+    flex: 1 1 0;
+    min-width: 100px;
+    padding: 14px 12px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--beige-dark);
+    background: var(--surface);
+    color: var(--text-mid);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.chip:hover {
+    border-color: var(--sage-light);
+    background: var(--sage-pale);
+}
+
+.chipActive {
+    border-color: var(--sage);
+    background: var(--sage);
+    color: var(--on-primary);
+}
+
+.chipActive:hover {
+    background: var(--sage-dark);
+    border-color: var(--sage-dark);
+}
+
+/* ── Allergy Chips ── */
+.allergyChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.allergyChip {
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1.5px solid var(--sage);
+    background: transparent;
+    color: var(--sage);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.allergyChip:hover {
+    background: var(--sage-pale);
+}
+
+.allergyChipActive {
+    background: var(--sage);
+    color: var(--on-primary);
+}
+
+.allergyChipActive:hover {
+    background: var(--sage-dark);
+}
+
+/* ── Saved toast ── */
+.savedToast {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--sage);
+    padding: 6px 14px;
+    background: var(--sage-pale);
+    border-radius: 999px;
+    align-self: flex-start;
+    animation: fadeToast 1.5s ease forwards;
+}
+
+@keyframes fadeToast {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* ── Sign out button ── */
+.signOutBtn {
+    width: 100%;
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--coral);
+    background: transparent;
+    color: var(--coral);
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.signOutBtn:hover {
+    background: var(--coral);
+    color: var(--on-primary);
+}

@@ -1,0 +1,293 @@
+/* ── Empty state ───────────────────────────── */
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 48px 24px;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border: 1.5px solid rgba(168, 196, 176, 0.2);
+    text-align: center;
+}
+
+.emptyIcon {
+    opacity: 0.7;
+}
+
+.emptyText {
+    font-size: 1rem;
+    color: var(--text-mid);
+    max-width: 400px;
+    line-height: 1.7;
+}
+
+/* ── Report wrapper ───────────────────────── */
+
+.report {
+    margin-top: 0;
+}
+
+.reportTitle {
+    font-family: var(--font-lora), serif;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+}
+
+/* ── Grid layout ──────────────────────────── */
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 720px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Cards (shared) ───────────────────────── */
+
+.card {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    border: 1.5px solid rgba(168, 196, 176, 0.2);
+    transition: box-shadow var(--transition);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.cardTitle {
+    font-family: var(--font-lora), serif;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+}
+
+/* ── (a) Weekly Summary ───────────────────── */
+
+.summaryCard {
+    grid-column: 1 / -1;
+}
+
+.summaryContent {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.summaryText {
+    font-size: 1.05rem;
+    color: var(--text-mid);
+    line-height: 1.65;
+}
+
+.summaryHighlight {
+    font-weight: 700;
+    color: var(--sage);
+    font-size: 1.2rem;
+}
+
+/* Progress ring */
+.ring {
+    flex-shrink: 0;
+}
+
+.ringProgress {
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ringText {
+    font-size: 16px;
+    font-weight: 700;
+    fill: var(--text-dark);
+    font-family: var(--font-plus-jakarta), system-ui, sans-serif;
+}
+
+/* ── (b) Meals list ───────────────────────── */
+
+.mealsCard {
+    /* occupies left column naturally */
+}
+
+.mealList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mealItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--cream);
+    border: 1px solid var(--beige-dark);
+    transition: background var(--transition);
+}
+
+.mealItem:hover {
+    background: var(--sage-pale);
+}
+
+.mealInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mealName {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+.mealMeta {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.mealLift {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.liftPositive {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--sage);
+}
+
+.liftNegative {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--coral);
+}
+
+.liftNeutral {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-light);
+}
+
+.liftLabel {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+/* ── (c) Nutrient insights ────────────────── */
+
+.nutrientCard {
+    /* occupies right column naturally */
+}
+
+.nutrientList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.nutrientItem {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.nutrientBar {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--beige-dark);
+    overflow: hidden;
+}
+
+.nutrientFill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--sage);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 4px;
+}
+
+.nutrientLabel {
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+}
+
+.nutrientLabel strong {
+    color: var(--text-dark);
+}
+
+/* ── (d) Pattern insight ──────────────────── */
+
+.patternCard {
+    grid-column: 1 / -1;
+    background: var(--sage-pale);
+    border-color: var(--sage-light);
+}
+
+.patternText {
+    font-size: 1rem;
+    color: var(--text-mid);
+    line-height: 1.75;
+    font-style: italic;
+}
+
+/* ── Dark-mode overrides ──────────────────── */
+
+[data-theme="dark"] .emptyState,
+[data-theme="dark"] .card {
+    background: #1e2a1f;
+    border-color: rgba(168, 196, 176, 0.15);
+}
+
+[data-theme="dark"] .reportTitle,
+[data-theme="dark"] .cardTitle,
+[data-theme="dark"] .mealName,
+[data-theme="dark"] .ringText,
+[data-theme="dark"] .nutrientLabel strong {
+    color: #d6e8db;
+}
+
+[data-theme="dark"] .summaryText,
+[data-theme="dark"] .emptyText,
+[data-theme="dark"] .nutrientLabel,
+[data-theme="dark"] .patternText {
+    color: #a8c4b0;
+}
+
+[data-theme="dark"] .mealItem {
+    background: #263128;
+    border-color: #2d3a2e;
+}
+
+[data-theme="dark"] .mealItem:hover {
+    background: #2d3a2e;
+}
+
+[data-theme="dark"] .patternCard {
+    background: #263128;
+    border-color: #2d3a2e;
+}
+
+[data-theme="dark"] .nutrientBar {
+    background: #2d3a2e;
+}

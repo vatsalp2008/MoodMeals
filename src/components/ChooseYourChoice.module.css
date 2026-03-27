@@ -18,7 +18,7 @@
 }
 
 .card {
-    background: #fff;
+    background: var(--surface);
     border-radius: var(--radius-lg);
     padding: 40px;
     display: flex;

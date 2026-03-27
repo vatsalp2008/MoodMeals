@@ -1,0 +1,340 @@
+.section {
+    padding: 80px 0 100px;
+    background: var(--warm-white);
+}
+
+/* ── Header ── */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.label {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+    background: var(--sage-pale);
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.title {
+    font-family: var(--font-lora), serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--text-mid);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.65;
+}
+
+/* ── Input card ── */
+.card {
+    max-width: 720px;
+    margin: 0 auto 40px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--beige-dark);
+}
+
+.errorBanner {
+    background: var(--error-bg);
+    color: var(--coral);
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.textarea {
+    width: 100%;
+    padding: 0;
+    border: none;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--text-dark);
+    resize: none;
+    outline: none;
+    background: transparent;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.textarea::placeholder {
+    color: var(--text-light);
+    opacity: 0.55;
+}
+
+.textarea:disabled {
+    opacity: 0.6;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--beige-dark);
+    padding-top: 20px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.prefGroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.prefBtn {
+    padding: 8px 15px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border: 1.5px solid var(--beige-dark);
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--transition);
+    color: var(--text-mid);
+}
+
+.prefBtn:hover {
+    border-color: var(--sage);
+    background: var(--sage-pale);
+}
+
+.prefActive {
+    background: var(--sage);
+    color: var(--on-primary);
+    border-color: var(--sage);
+}
+
+.submitBtn {
+    padding: 12px 26px;
+    background: var(--text-dark);
+    color: var(--on-primary);
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+    border: none;
+    flex-shrink: 0;
+}
+
+.submitBtn:hover {
+    background: var(--foreground);
+    transform: translateY(-1px);
+}
+
+.submitBtn:disabled {
+    background: var(--beige-dark);
+    color: var(--text-light);
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ── Analysis banner ── */
+.results {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.analysisBanner {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.emotionPill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1.5px solid var(--sage);
+    border-radius: 999px;
+    padding: 8px 22px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    text-transform: capitalize;
+}
+
+.analysisMsg {
+    font-size: 1rem;
+    color: var(--text-mid);
+    font-style: italic;
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+/* ── Meal grid ── */
+.mealGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.mealCard {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1.5px solid var(--beige-dark);
+    animation: cardFadeIn 0.4s ease both;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.mealCard:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+}
+
+@keyframes cardFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.mealImg {
+    position: relative;
+    height: 180px;
+}
+
+.mealImgEl {
+    object-fit: cover;
+}
+
+.mealBody {
+    padding: 16px;
+}
+
+.mealName {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.mealDesc {
+    font-size: 0.82rem;
+    color: var(--text-mid);
+    line-height: 1.55;
+    margin-bottom: 12px;
+}
+
+.mealMeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.moodTags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.moodTag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: var(--sage-pale);
+    color: var(--sage);
+    padding: 3px 8px;
+    border-radius: 999px;
+}
+
+.pref-veg {
+    color: #2d6a3f;
+    background: #e2f3e8;
+    border: 1px solid #b5dcc2;
+}
+
+.pref-vegan {
+    color: #1b5e20;
+    background: #dcedc8;
+    border: 1px solid #a5d6a7;
+}
+
+.pref-non-veg {
+    color: #b53d2a;
+    background: #fde8e4;
+    border: 1px solid #f5c4bb;
+}
+
+.mealCal {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── See all link ── */
+.seeAll {
+    text-align: center;
+}
+
+.seeAllLink {
+    display: inline-block;
+    background: var(--sage);
+    color: var(--on-primary);
+    padding: 14px 36px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all var(--transition);
+    box-shadow: 0 4px 20px rgba(122, 158, 135, 0.35);
+}
+
+.seeAllLink:hover {
+    background: var(--sage-dark);
+    transform: translateY(-2px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .mealGrid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 20px;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .submitBtn {
+        width: 100%;
+        text-align: center;
+    }
+}

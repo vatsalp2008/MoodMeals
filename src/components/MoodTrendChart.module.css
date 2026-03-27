@@ -1,0 +1,102 @@
+.container {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--beige-dark);
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    margin-bottom: 24px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.heading {
+    font-family: var(--font-lora), serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+}
+
+.chartWrap {
+    position: relative;
+    width: 100%;
+}
+
+.chart {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.dot {
+    cursor: pointer;
+    transition: r 0.2s ease;
+}
+
+.dot:hover {
+    filter: brightness(1.15);
+}
+
+.connectorLine {
+    stroke: var(--beige-dark);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+}
+
+.tooltip {
+    position: absolute;
+    background: var(--text-dark);
+    color: var(--on-primary);
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 10;
+    transform: translate(-50%, -100%);
+    margin-top: -8px;
+    box-shadow: var(--shadow-sm);
+}
+
+.summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+    justify-content: center;
+}
+
+.summaryChip {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--beige-dark);
+    color: var(--text-mid);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.summaryDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.emptyIcon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}

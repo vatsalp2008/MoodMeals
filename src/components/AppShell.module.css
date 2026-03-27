@@ -1,0 +1,397 @@
+.shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--cream);
+}
+
+/* ── Header ── */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface-glass);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--beige-dark);
+}
+
+.headerInner {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logoGroup {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+}
+
+.logo {
+    font-family: var(--font-lora), serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--sage);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Breadcrumb — page name indicator */
+.breadcrumb {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    white-space: nowrap;
+    display: none; /* shown on mobile only where desktop nav is hidden */
+}
+
+.breadcrumbSep {
+    margin: 0 6px;
+    color: var(--text-light);
+    font-weight: 400;
+}
+
+/* ── Desktop nav ── */
+.desktopNav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    justify-content: center;
+}
+
+.navLink {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-mid);
+    padding: 7px 16px;
+    border-radius: 999px;
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+
+.navLink:hover {
+    background: var(--sage-pale);
+    color: var(--sage);
+}
+
+.navLinkActive {
+    background: var(--sage);
+    color: var(--surface);
+}
+
+/* ── Header right cluster ── */
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.backLink {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-light);
+    white-space: nowrap;
+    transition: color var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.backLink:hover {
+    color: var(--sage);
+}
+
+/* ── User area ── */
+.userArea {
+    position: relative;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--on-primary);
+    cursor: pointer;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 2px 8px rgba(var(--shadow-color), 0.12);
+    transition: box-shadow var(--transition), transform var(--transition);
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.avatar:hover {
+    box-shadow: 0 4px 12px rgba(var(--shadow-color), 0.18);
+    transform: scale(1.05);
+}
+
+.signInBtn {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--sage);
+    border: 1.5px solid var(--sage-light);
+    border-radius: 999px;
+    padding: 6px 16px;
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+
+.signInBtn:hover {
+    background: var(--sage);
+    color: var(--on-primary);
+    border-color: var(--sage);
+}
+
+/* ── User dropdown ── */
+.dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    min-width: 180px;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--beige-dark);
+    box-shadow: var(--shadow-md);
+    padding: 12px;
+    z-index: 200;
+    animation: dropIn 0.15s ease;
+}
+
+@keyframes dropIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.dropdownName {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    margin-bottom: 2px;
+}
+
+.dropdownEmail {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 156px;
+}
+
+.dropdownDivider {
+    border: none;
+    border-top: 1px solid var(--beige-dark);
+    margin: 10px 0;
+}
+
+.dropdownSignOut {
+    width: 100%;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--coral);
+    cursor: pointer;
+    padding: 4px 0;
+    background: none;
+    border: none;
+    transition: color var(--transition);
+}
+
+.dropdownSignOut:hover {
+    color: var(--coral-dark);
+}
+
+/* ── Sign-in modal ── */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 58, 46, 0.35);
+    backdrop-filter: blur(4px);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: fadeOverlay 0.2s ease;
+}
+
+@keyframes fadeOverlay {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.modal {
+    background: var(--cream);
+    border-radius: var(--radius-lg);
+    padding: 36px 32px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.modalClose {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 1.4rem;
+    color: var(--text-light);
+    cursor: pointer;
+    line-height: 1;
+    background: none;
+    border: none;
+    transition: color var(--transition);
+}
+
+.modalClose:hover {
+    color: var(--text-dark);
+}
+
+.modalTitle {
+    font-family: var(--font-lora), serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.modalSubtitle {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 24px;
+}
+
+.modalForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modalInput {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--beige-dark);
+    background: var(--surface);
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    font-family: inherit;
+    transition: border-color var(--transition);
+    outline: none;
+}
+
+.modalInput:focus {
+    border-color: var(--sage);
+}
+
+.modalInput::placeholder {
+    color: var(--text-light);
+}
+
+.modalBtn {
+    margin-top: 4px;
+    padding: 13px;
+    border-radius: var(--radius-sm);
+    background: var(--sage);
+    color: var(--on-primary);
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.modalBtn:hover:not(:disabled) {
+    background: var(--sage-dark);
+    transform: translateY(-1px);
+}
+
+.modalBtn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* ── Allergy chips ── */
+.allergySection { margin-top: 12px; }
+.allergySectionLabel { font-size: var(--text-base); color: var(--text-secondary); margin-bottom: 8px; display: block; }
+.allergyChips { display: flex; flex-wrap: wrap; gap: 6px; }
+.allergyChip {
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--sage);
+    background: transparent;
+    color: var(--sage);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.allergyChipActive {
+    background: var(--sage);
+    color: var(--on-primary);
+}
+
+/* ── Manage allergies in dropdown ── */
+.manageAllergiesBtn {
+    width: 100%;
+    text-align: left;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--sage);
+    cursor: pointer;
+    padding: 4px 0;
+    background: none;
+    border: none;
+    transition: color 0.2s;
+}
+.manageAllergiesBtn:hover {
+    color: var(--sage-dark);
+}
+
+/* ── Main content ── */
+.main {
+    flex: 1;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .desktopNav {
+        display: none;
+    }
+
+    .breadcrumb {
+        display: inline; /* show page name on mobile */
+    }
+
+    .backLink {
+        font-size: var(--text-xs);
+    }
+
+    .main {
+        padding-bottom: 80px; /* space for bottom nav on mobile only */
+    }
+}

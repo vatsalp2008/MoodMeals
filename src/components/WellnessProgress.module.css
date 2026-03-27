@@ -1,0 +1,200 @@
+/* ── Card Container ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--beige-dark);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  max-width: 720px;
+  margin: 0 auto 24px;
+}
+
+.heading {
+  font-family: var(--font-lora), serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 18px;
+}
+
+/* ── Milestone Track ── */
+.track {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  padding: 0 4px;
+  overflow-x: auto;
+}
+
+.milestoneGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1 1 0;
+  min-width: 72px;
+}
+
+/* Connector lines */
+.line {
+  position: absolute;
+  top: 18px; /* vertically center on circle */
+  right: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--beige-dark);
+  z-index: 0;
+  transform: translateX(-50%);
+}
+
+.lineCompleted {
+  background: var(--sage);
+}
+
+/* Circles */
+.circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.circleCompleted {
+  background: var(--sage);
+  border: 2px solid var(--sage);
+  box-shadow: 0 0 8px rgba(95, 138, 110, 0.35);
+}
+
+.circleNext {
+  background: var(--surface);
+  border: 2px solid var(--sage);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.circleFuture {
+  background: var(--surface);
+  border: 2px solid var(--beige-dark);
+}
+
+.emoji {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.circleCompleted .emoji {
+  filter: brightness(1.1);
+}
+
+.circleFuture .emoji {
+  opacity: 0.4;
+}
+
+/* Labels */
+.milestoneLabel {
+  font-size: 0.68rem;
+  font-weight: 600;
+  margin-top: 6px;
+  text-align: center;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.labelCompleted {
+  color: var(--sage-dark);
+}
+
+.labelNext {
+  color: var(--text-dark);
+}
+
+.labelFuture {
+  color: var(--text-light);
+  opacity: 0.6;
+}
+
+.milestoneHint {
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--sage);
+  text-align: center;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+/* ── Pulse Animation ── */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(95, 138, 110, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(95, 138, 110, 0);
+  }
+}
+
+/* ── Stat Counters ── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--beige-dark);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.statNumber {
+  font-family: var(--font-lora), serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--text-light);
+  text-align: center;
+}
+
+/* ── Microcopy ── */
+.microcopy {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  text-align: center;
+  margin: 14px 0 0;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* ── Responsive: stack on very small screens ── */
+@media (max-width: 420px) {
+  .track {
+    gap: 0;
+  }
+
+  .milestoneGroup {
+    min-width: 60px;
+  }
+
+  .milestoneLabel {
+    font-size: 0.6rem;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

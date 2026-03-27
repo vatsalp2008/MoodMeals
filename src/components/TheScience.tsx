@@ -1,51 +1,62 @@
 import React from "react";
 import styles from "./TheScience.module.css";
 
+const FEATURES = [
+    {
+        icon: "\u{1F9EC}",
+        title: "Nutritional Psychiatry",
+        desc: "Maps 5 clinical mood states to targeted nutrients based on the SMILES trial and Opie et al. research.",
+    },
+    {
+        icon: "\u{1F4C5}",
+        title: "Smart Calendar",
+        desc: "Predicts stress from your schedule and suggests meals before deadlines hit.",
+    },
+    {
+        icon: "\u{1F4B0}",
+        title: "Seattle Student Budget",
+        desc: "QFC Wednesday deals, 99 Ranch bulk prices, Pike Place markdowns — eating well on a student budget.",
+    },
+    {
+        icon: "\u{1F4CA}",
+        title: "Mood Tracking",
+        desc: "Journal entries, mood-food correlation reports, and wellness progress over time.",
+    },
+    {
+        icon: "\u{1F512}",
+        title: "Google Auth",
+        desc: "Sync your calendar, save your data across devices with secure Google sign-in.",
+    },
+    {
+        icon: "\u26A1",
+        title: "Quick Meals for Burnout",
+        desc: "Auto-filters easy recipes when you are exhausted — no 30-step dinners on a bad day.",
+    },
+];
+
 const TheScience = () => {
     return (
-        <section id="science" className="container">
-            <div className={styles.section}>
-                <div className={styles.content}>
-                    <span className={styles.label}>SCIENCE-BACKED</span>
-                    <h2 className={styles.title}>The link <br />between mind <br />and plate.</h2>
-                    <p className={styles.text}>
-                        Our AI-Sync technology is based on emerging research in
-                        nutritional psychiatry, mapping the correlation between
-                        serotonin levels and carbohydrate intake, among other
-                        crucial biological factors.
+        <section id="science" className={styles.section}>
+            <div className="container">
+                <div className={styles.header}>
+                    <span className={styles.label}>FEATURES</span>
+                    <h2 className={styles.title}>
+                        Everything a student needs <br />to eat smarter.
+                    </h2>
+                    <p className={styles.subtitle}>
+                        Built on nutritional psychiatry research and optimized for
+                        Northeastern Seattle students.
                     </p>
-
-                    <ul className={styles.list}>
-                        <li className={styles.item}>
-                            <div className={styles.icon}>🌡️</div>
-                            <div>
-                                <h4 className={styles.itemTitle}>Stress Modulation</h4>
-                                <p className={styles.itemDesc}>Using magnesium-rich profiles to lower cortisol levels during high-stress periods.</p>
-                            </div>
-                        </li>
-                        <li className={styles.item}>
-                            <div className={styles.icon}>⚡</div>
-                            <div>
-                                <h4 className={styles.itemTitle}>Cognitive Boost</h4>
-                                <p className={styles.itemDesc}>Leveraging DHA and omega-3s for sustained mental focus and clarity.</p>
-                            </div>
-                        </li>
-                        <li className={styles.item}>
-                            <div className={styles.icon}>💤</div>
-                            <div>
-                                <h4 className={styles.itemTitle}>Mood Stabilization</h4>
-                                <p className={styles.itemDesc}>Tryptophan-based recommendations for better serotonin synthesis and sleep.</p>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
 
-                <div className={styles.visual}>
-                    {/* Decorative visual element */}
-                    <div style={{ position: "absolute", inset: "-40px", overflow: "hidden", pointerEvents: "none" }}>
-                        <div style={{ position: "absolute", top: "10%", left: "15%", width: "80px", height: "80px", background: "var(--sage-light)", borderRadius: "50%", opacity: 0.1, filter: "blur(20px)" }}></div>
-                        <div style={{ position: "absolute", bottom: "20%", right: "10%", width: "120px", height: "120px", background: "var(--coral-light)", borderRadius: "50%", opacity: 0.1, filter: "blur(30px)" }}></div>
-                    </div>
+                <div className={styles.grid}>
+                    {FEATURES.map(f => (
+                        <div key={f.title} className={styles.card}>
+                            <div className={styles.icon}>{f.icon}</div>
+                            <h3 className={styles.cardTitle}>{f.title}</h3>
+                            <p className={styles.cardDesc}>{f.desc}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>

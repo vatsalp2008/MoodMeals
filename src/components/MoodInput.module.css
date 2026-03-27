@@ -1,9 +1,15 @@
 @import url("../app/globals.css");
 
 .section {
-    padding: 80px 0;
+    padding: 48px 0;
     background-color: var(--warm-white);
     text-align: center;
+}
+
+@media (min-width: 769px) {
+    .section {
+        padding: 64px 0;
+    }
 }
 
 .container {
@@ -25,7 +31,7 @@
 }
 
 .inputWrapper {
-    background: white;
+    background: var(--surface);
     padding: 32px;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
@@ -105,7 +111,7 @@
 
 .prefActive {
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     border-color: var(--sage);
     box-shadow: 0 4px 12px rgba(122, 158, 135, 0.3);
 }
@@ -113,8 +119,8 @@
 .submitBtn {
     padding: 14px 28px;
     border-radius: 999px;
-    background: var(--text-dark);
-    color: white;
+    background: var(--sage);
+    color: var(--on-primary);
     font-weight: 700;
     border: none;
     cursor: pointer;
@@ -124,7 +130,7 @@
 }
 
 .submitBtn:hover {
-    background: #000;
+    background: var(--sage-dark);
     transform: translateY(-2px);
 }
 
@@ -141,7 +147,7 @@
     left: 50%;
     transform: translateX(-50%);
     background: var(--sage);
-    color: white;
+    color: var(--on-primary);
     padding: 5px 20px;
     border-radius: 999px;
     font-size: 0.82rem;
@@ -158,7 +164,115 @@
 }
 
 .errorStatus {
-    background: #d9534f;
+    background: var(--error);
+}
+
+/* Sustain / Wind Down toggle */
+.sustainToggle {
+    margin-top: 28px;
+    text-align: center;
+}
+
+.sustainLabel {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    margin-bottom: 14px;
+    font-style: italic;
+}
+
+.sustainBtns {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.sustainBtn {
+    padding: 10px 28px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border: 2px solid var(--beige-dark);
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--transition);
+    color: var(--text-mid);
+}
+
+.sustainBtn:hover {
+    border-color: var(--sage);
+    background: var(--sage-pale);
+}
+
+.sustainActive {
+    background: var(--sage);
+    color: var(--on-primary);
+    border-color: var(--sage);
+    box-shadow: 0 4px 16px rgba(122, 158, 135, 0.35);
+}
+
+.winddownActive {
+    background: var(--terracotta, #c27b5a);
+    color: var(--on-primary);
+    border-color: var(--terracotta, #c27b5a);
+    box-shadow: 0 4px 16px rgba(194, 123, 90, 0.35);
+}
+
+/* ── Voice-to-Text Mic Button ── */
+.micBtn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--sage-light);
+    background: var(--sage-pale);
+    color: var(--sage);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    flex-shrink: 0;
+}
+
+.micBtn:hover {
+    border-color: var(--sage);
+    transform: scale(1.05);
+}
+
+.micBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.micBtnRecording {
+    background: var(--coral);
+    border-color: var(--coral);
+    color: var(--on-primary);
+    animation: micBreathe 2s ease-in-out infinite;
+    box-shadow: 0 0 0 6px rgba(232, 131, 106, 0.2);
+}
+
+.micBtnRecording:hover {
+    background: var(--coral);
+    border-color: var(--coral);
+}
+
+@keyframes micBreathe {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 4px rgba(232, 131, 106, 0.15); }
+    50% { transform: scale(1.12); box-shadow: 0 0 0 8px rgba(232, 131, 106, 0.25); }
+}
+
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 @media (max-width: 600px) {

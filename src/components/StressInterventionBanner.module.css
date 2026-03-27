@@ -1,0 +1,264 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 24px;
+    max-width: 1160px;
+    margin: 0 auto 24px;
+}
+
+/* ---- Single banner card ---- */
+.banner {
+    background: var(--beige-pale);
+    border: 1px solid var(--beige-dark);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    transition: all var(--transition);
+    animation: slideDown 0.35s ease forwards;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bannerHigh {
+    border-color: #e8b96a;
+    background: #fef6e8;
+}
+
+.bannerMedium {
+    border-color: #c8d5b8;
+    background: #f7faf3;
+}
+
+/* ---- Header row (always visible) ---- */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.icon {
+    font-size: 1.35rem;
+    flex-shrink: 0;
+}
+
+.summaryText {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+.timeTag {
+    display: inline-block;
+    background: rgba(122, 158, 135, 0.12);
+    color: var(--sage);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+.expandBtn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    transition: transform 0.25s ease;
+    padding: 4px;
+    flex-shrink: 0;
+}
+
+.expandBtnOpen {
+    transform: rotate(180deg);
+}
+
+.dismissBtn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: var(--text-light);
+    padding: 4px 6px;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+    flex-shrink: 0;
+}
+
+.dismissBtn:hover {
+    background: var(--border);
+    color: var(--text-dark);
+}
+
+/* ---- Expanded detail ---- */
+.detail {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
+    padding-top: 0;
+}
+
+.detailOpen {
+    max-height: 400px;
+    opacity: 1;
+    padding-top: 16px;
+}
+
+.detailInner {
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.detailRow {
+    display: flex;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+}
+
+.detailLabel {
+    font-weight: 700;
+    color: var(--text-dark);
+    min-width: 110px;
+    flex-shrink: 0;
+}
+
+.nutrientChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.nutrientChip {
+    display: inline-block;
+    background: var(--sage-pale);
+    color: var(--sage);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.reason {
+    font-style: italic;
+    color: var(--text-mid);
+    font-size: 0.88rem;
+    line-height: 1.65;
+}
+
+.actionBtn {
+    align-self: flex-start;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--sage);
+    color: var(--on-primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition);
+    margin-top: 4px;
+}
+
+.actionBtn:hover {
+    background: var(--text-dark);
+    transform: translateY(-1px);
+}
+
+/* ---- Empty state ---- */
+.empty {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+    .wrapper {
+        padding: 0 16px;
+    }
+
+    .banner {
+        padding: 14px 16px;
+    }
+
+    .summaryText {
+        font-size: 0.88rem;
+    }
+
+    .detailLabel {
+        min-width: 90px;
+    }
+
+    .timeTag {
+        display: none;
+    }
+}
+
+/* ---- Dark mode ---- */
+[data-theme="dark"] .banner {
+    background: #2a2618;
+    border-color: #4a3f28;
+}
+
+[data-theme="dark"] .bannerHigh {
+    background: #2e2614;
+    border-color: #5a4828;
+}
+
+[data-theme="dark"] .bannerMedium {
+    background: #1e2618;
+    border-color: #3a4830;
+}
+
+[data-theme="dark"] .summaryText {
+    color: #e8e0d0;
+}
+
+[data-theme="dark"] .detailLabel {
+    color: #e8e0d0;
+}
+
+[data-theme="dark"] .detailRow {
+    color: #b0a890;
+}
+
+[data-theme="dark"] .reason {
+    color: #b0a890;
+}
+
+[data-theme="dark"] .nutrientChip {
+    background: rgba(122, 158, 135, 0.2);
+    color: #a8c4b0;
+}
+
+[data-theme="dark"] .dismissBtn {
+    color: #b0a890;
+}
+
+[data-theme="dark"] .dismissBtn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e8e0d0;
+}
+
+[data-theme="dark"] .detailInner {
+    border-top-color: rgba(255, 255, 255, 0.08);
+}

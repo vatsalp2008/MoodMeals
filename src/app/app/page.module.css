@@ -1,0 +1,367 @@
+.page {
+    min-height: calc(100vh - 64px);
+    scroll-padding-bottom: 120px;
+}
+
+/* ── Flow Stepper ── */
+.stepperWrap {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--beige-dark);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    max-width: 560px;
+    width: 100%;
+}
+
+.stepNode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.stepNodeLink {
+    display: block;
+    text-decoration: none;
+}
+
+.stepNodeLink:hover .stepCircleActive,
+.stepNodeLink:hover .stepCircleDone {
+    box-shadow: 0 0 0 3px rgba(122, 158, 135, 0.25);
+}
+
+.stepCircle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: 2px solid;
+    transition: all var(--transition);
+}
+
+.stepCircleActive {
+    background: var(--sage);
+    border-color: var(--sage);
+    color: var(--on-primary);
+}
+
+.stepCircleDone {
+    background: var(--sage);
+    border-color: var(--sage);
+    color: var(--on-primary);
+}
+
+.stepCircleInactive {
+    background: var(--surface);
+    border-color: var(--beige-dark);
+    color: var(--text-light);
+}
+
+.stepLabel {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+}
+
+.stepLabelInactive {
+    color: var(--text-light);
+}
+
+.stepSubtitle {
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: var(--text-mid);
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+    margin-top: -2px;
+}
+
+.stepLine {
+    flex: 1;
+    height: 2px;
+    background: var(--beige-dark);
+    margin: 0 4px;
+    margin-bottom: 30px; /* align with circle center visually */
+    transition: background var(--transition);
+}
+
+.stepLineDone {
+    background: var(--sage);
+}
+
+/* ── Step 2 CTA banner ── */
+.ctaBanner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(90deg, var(--sage-pale) 0%, var(--cream) 100%);
+    border-bottom: 1px solid var(--beige-dark);
+    padding: 10px 24px;
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    font-weight: 500;
+}
+
+.ctaBannerStep {
+    background: var(--sage);
+    color: var(--on-primary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 2px 9px;
+    white-space: nowrap;
+}
+
+/* ── Greeting ── */
+.greeting {
+    background: linear-gradient(135deg, var(--sage-pale) 0%, var(--cream) 70%);
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid var(--beige-dark);
+}
+
+.greetingLine {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+    font-family: var(--font-lora), serif;
+}
+
+.greetingSubtext {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+}
+
+/* ── Checkin wrapper ── */
+.checkinWrap {
+    background: linear-gradient(160deg, var(--sage-pale) 0%, var(--warm-white) 100%);
+}
+
+/* ── Empty state ── */
+.emptyState {
+    text-align: center;
+    padding: 60px 24px 40px;
+}
+
+.emptyEmoji {
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+}
+
+.emptyHeading {
+    font-family: var(--font-lora), serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.emptyText {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    max-width: 360px;
+    margin: 0 auto;
+    line-height: 1.65;
+}
+
+/* ── Floating grocery bar ── */
+.floatingGroceryBar {
+    position: fixed;
+    bottom: 80px;
+    left: 16px;
+    right: 16px;
+    z-index: 50;
+    background: var(--sage);
+    color: var(--on-primary);
+    border-radius: 16px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(122, 158, 135, 0.45);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: transform var(--transition), box-shadow var(--transition);
+    animation: slideUpBar 0.3s ease;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+@keyframes slideUpBar {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.floatingGroceryBar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(122, 158, 135, 0.55);
+}
+
+.floatingBarArrow {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    white-space: nowrap;
+}
+
+/* ── Gentle Mode (high-stress / depressive) ── */
+.gentleMode {
+    gap: 0;
+}
+
+.gentleMode .greeting {
+    background: linear-gradient(135deg, var(--lavender-pale) 0%, var(--cream) 70%);
+    padding: 36px 24px 28px;
+}
+
+.gentleMode .greetingLine {
+    font-size: 1.6rem;
+}
+
+.gentleMode .greetingSubtext {
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.gentleMode .checkinWrap {
+    background: linear-gradient(160deg, var(--lavender-pale) 0%, var(--warm-white) 100%);
+}
+
+.breathingDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--lavender);
+    display: inline-block;
+    margin-right: 6px;
+    vertical-align: middle;
+    animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.5); opacity: 1; }
+}
+
+/* ── Calming Banner ── */
+.gentleCalm {
+    background: linear-gradient(135deg, var(--lavender-pale) 0%, var(--sage-pale) 50%, var(--cream) 100%);
+    border-radius: var(--radius-md);
+    padding: 28px 24px;
+    margin: 20px 16px 0;
+    text-align: center;
+    border: 1px solid rgba(184, 169, 212, 0.25);
+}
+
+.gentleCalmIcon {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    display: block;
+    opacity: 0.85;
+}
+
+.gentleCalmText {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-mid);
+    line-height: 1.7;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* ── Breathe Circle Interaction ── */
+.breatheWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 32px 24px;
+    margin: 0 16px;
+}
+
+.breatheText {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-mid);
+    letter-spacing: 0.02em;
+    position: relative;
+    height: 1.4em;
+    overflow: hidden;
+}
+
+.breatheTextIn,
+.breatheTextOut {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    animation: breatheTextCycle 8s ease-in-out infinite;
+}
+
+.breatheTextIn {
+    animation-name: breatheTextIn;
+}
+
+.breatheTextOut {
+    animation-name: breatheTextOut;
+}
+
+@keyframes breatheTextIn {
+    0%, 45% { opacity: 1; }
+    50%, 95% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes breatheTextOut {
+    0%, 45% { opacity: 0; }
+    50%, 95% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* ── Contextual Guide ── */
+.contextualGuide {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: linear-gradient(90deg, var(--sage-pale) 0%, var(--cream) 100%);
+    border-bottom: 1px solid var(--beige-dark);
+    padding: 14px 24px;
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    font-weight: 500;
+    line-height: 1.5;
+    animation: fadeGuide 0.4s ease;
+}
+
+.contextualGuideIcon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+@keyframes fadeGuide {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (min-width: 769px) {
+    .floatingGroceryBar {
+        display: none; /* desktop navigates via header */
+    }
+}

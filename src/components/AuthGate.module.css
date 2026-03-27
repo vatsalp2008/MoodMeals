@@ -1,0 +1,196 @@
+/* ── AuthGate: full-page welcome screen ── */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 250;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: gateFadeIn 0.35s ease;
+}
+
+@keyframes gateFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    padding: 44px 36px 36px;
+    animation: gateSlideUp 0.4s ease;
+}
+
+@keyframes gateSlideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Branding ── */
+.brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.brandEmoji {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.brandName {
+    font-family: var(--font-lora), serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--sage);
+}
+
+/* ── Copy ── */
+.heading {
+    font-family: var(--font-lora), serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 6px;
+}
+
+.valueProp {
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 28px;
+}
+
+/* ── Form ── */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--beige-dark);
+    background: var(--cream);
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    font-family: inherit;
+    transition: border-color var(--transition);
+    outline: none;
+}
+
+.input:focus {
+    border-color: var(--sage);
+}
+
+.input::placeholder {
+    color: var(--text-light);
+}
+
+/* ── Allergy chips ── */
+.allergySection {
+    margin-top: 8px;
+}
+
+.allergySectionLabel {
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.allergyChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.allergyChip {
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--sage);
+    background: transparent;
+    color: var(--sage);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.allergyChip:hover {
+    background: var(--sage-pale);
+}
+
+.allergyChipActive {
+    background: var(--sage);
+    color: var(--on-primary);
+}
+
+/* ── Submit button ── */
+.submitBtn {
+    margin-top: 8px;
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    background: var(--sage);
+    color: var(--on-primary);
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.submitBtn:hover:not(:disabled) {
+    background: var(--sage-dark);
+    transform: translateY(-1px);
+}
+
+.submitBtn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* ── Footer link ── */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.learnMore {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-mid);
+    transition: color var(--transition);
+}
+
+.learnMore:hover {
+    color: var(--sage);
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+    .card {
+        padding: 32px 20px 28px;
+    }
+
+    .brandName {
+        font-size: 1.4rem;
+    }
+
+    .heading {
+        font-size: 1.15rem;
+    }
+}
