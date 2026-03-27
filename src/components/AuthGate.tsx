@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useUser } from "@/context/UserContext";
+import { useUser, readSavedPrefs } from "@/context/UserContext";
 
 /**
  * AuthGate renders a sign-in screen when the user is not authenticated.
@@ -12,11 +12,12 @@ const AuthGate = ({ children }: { children: React.ReactNode }) => {
     const { profile, loading, supabaseEnabled, signInWithGoogle, signInAsGuest } =
         useUser();
 
+    const savedPrefs = typeof window !== "undefined" ? readSavedPrefs() : null;
     const [showGuestForm, setShowGuestForm] = useState(false);
     const [guestName, setGuestName] = useState("");
     const [guestEmail, setGuestEmail] = useState("");
-    const [guestAllergies, setGuestAllergies] = useState("");
-    const [guestPreference, setGuestPreference] = useState<"veg" | "non-veg" | "vegan">("veg");
+    const [guestAllergies, setGuestAllergies] = useState(savedPrefs?.allergies?.join(", ") ?? "");
+    const [guestPreference, setGuestPreference] = useState<"veg" | "non-veg" | "vegan">(savedPrefs?.preference ?? "veg");
 
     if (loading) {
         return (
@@ -146,7 +147,7 @@ const AuthGate = ({ children }: { children: React.ReactNode }) => {
                     </form>
                 )}
 
-                <Link href="/" style={backLinkStyle}>
+                <Link href="/" style={backLinkStyle} className="hide-mobile">
                     ← Back to landing page
                 </Link>
             </div>

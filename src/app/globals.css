@@ -188,3 +188,10 @@ button {
     transform: translateY(0);
   }
 }
+
+/* ── Utility: hide on mobile ── */
+@media (max-width: 640px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
