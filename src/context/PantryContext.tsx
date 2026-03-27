@@ -45,7 +45,21 @@ export const PantryProvider = ({ children }: { children: ReactNode }) => {
 
     const addItem = useCallback((name: string, category: PantryItem["category"], quantity?: number, unit?: PantryUnit) => {
         setItems(prev => {
-            if (prev.some(i => i.name.toLowerCase() === name.toLowerCase())) return prev;
+            const existingIdx = prev.findIndex(i => i.name.toLowerCase() === name.toLowerCase());
+            if (existingIdx !== -1) {
+                // Update quantity for existing item
+                if (quantity !== undefined) {
+                    const updated = [...prev];
+                    const existing = updated[existingIdx];
+                    updated[existingIdx] = {
+                        ...existing,
+                        quantity: (existing.quantity ?? 0) + quantity,
+                        ...(unit ? { unit } : {}),
+                    };
+                    return updated;
+                }
+                return prev;
+            }
             const item: PantryItem = {
                 id: `${Date.now()}-${Math.random()}`,
                 name,

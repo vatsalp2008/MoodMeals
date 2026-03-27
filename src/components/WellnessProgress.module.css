@@ -186,6 +186,11 @@
         padding: 14px;
     }
 
+    .track {
+        gap: 0;
+        padding: 0;
+    }
+
     .circle {
         width: 28px;
         height: 28px;
@@ -201,15 +206,20 @@
     }
 
     .milestoneGroup {
-        min-width: 56px;
+        min-width: 0;
     }
 
     .milestoneLabel {
-        font-size: 0.58rem;
+        font-size: 0.55rem;
+        white-space: normal;
+        word-break: break-word;
+        max-width: 60px;
     }
 
     .milestoneHint {
-        font-size: 0.54rem;
+        font-size: 0.5rem;
+        white-space: normal;
+        max-width: 64px;
     }
 
     .statNumber {
@@ -226,21 +236,29 @@
     }
 }
 
-/* ── Responsive: stack on very small screens ── */
-@media (max-width: 420px) {
-  .track {
-    gap: 0;
-  }
+/* ── Responsive: very small screens ── */
+@media (max-width: 380px) {
+    .milestoneLabel {
+        font-size: 0;
+        line-height: 0;
+        max-width: 0;
+        overflow: hidden;
+    }
 
-  .milestoneGroup {
-    min-width: 60px;
-  }
+    .milestoneHint {
+        display: none;
+    }
 
-  .milestoneLabel {
-    font-size: 0.6rem;
-  }
+    .milestoneGroup {
+        min-width: 0;
+    }
 
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    .circle {
+        width: 24px;
+        height: 24px;
+    }
+
+    .line {
+        top: 12px;
+    }
 }

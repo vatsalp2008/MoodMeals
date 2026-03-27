@@ -161,7 +161,7 @@ export default function GroceryPage() {
         let count = 0;
         for (const ing of allIngredients) {
             const key = ing.name.toLowerCase();
-            if (seen.has(key) || hasItem(ing.name)) continue;
+            if (seen.has(key)) continue;
             seen.add(key);
 
             const parsed = parseLeadingNumber(ing.amount);

@@ -37,6 +37,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 /* ---------- localStorage helpers ---------- */
 
 const LOCAL_PROFILE_KEY = "moodmeals_user_profile";
+const LOCAL_PREFS_KEY = "moodmeals_saved_prefs";
 
 function readLocalProfile(): UserProfile | null {
     if (typeof window === "undefined") return null;
@@ -49,11 +50,26 @@ function readLocalProfile(): UserProfile | null {
 function writeLocalProfile(profile: UserProfile) {
     if (typeof window === "undefined") return;
     localStorage.setItem(LOCAL_PROFILE_KEY, JSON.stringify(profile));
+    // Also persist preferences separately so they survive sign-out
+    localStorage.setItem(LOCAL_PREFS_KEY, JSON.stringify({
+        allergies: profile.allergies,
+        preference: profile.preference,
+    }));
 }
 
 function clearLocalProfile() {
     if (typeof window === "undefined") return;
     localStorage.removeItem(LOCAL_PROFILE_KEY);
+    // NOTE: LOCAL_PREFS_KEY is intentionally NOT cleared so preferences persist
+}
+
+/** Read saved preferences that survive sign-out. */
+export function readSavedPrefs(): { allergies: string[]; preference: "veg" | "non-veg" | "vegan" } | null {
+    if (typeof window === "undefined") return null;
+    try {
+        const raw = localStorage.getItem(LOCAL_PREFS_KEY);
+        return raw ? JSON.parse(raw) : null;
+    } catch { return null; }
 }
 
 function profileFromUser(authUser: User): UserProfile {

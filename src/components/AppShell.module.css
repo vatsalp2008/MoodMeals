@@ -388,7 +388,7 @@
     }
 
     .backLink {
-        font-size: var(--text-xs);
+        display: none;
     }
 
     .main {
